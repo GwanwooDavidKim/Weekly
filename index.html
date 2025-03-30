@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
-            max-width: 1000px;
+            max-width: 800px;
             margin: 0 auto;
             padding: 20px;
             background-color: #f5f5f5;
@@ -21,22 +21,21 @@
         }
         .item-container {
             width: 100%;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             display: flex;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             border-radius: 8px;
             overflow: hidden;
         }
         .dashboard-link, .quiz-link {
-            padding: 20px;
+            padding: 15px;
             flex: 1;
             background-color: white;
             text-decoration: none;
             color: #333;
             transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            text-align: center;
+            font-weight: bold;
         }
         .dashboard-link {
             border-right: 1px solid #eee;
@@ -49,34 +48,8 @@
             background-color: #4A90E2;
             color: white;
         }
-        .title {
-            font-weight: bold;
-            font-size: 1.2em;
-            margin-bottom: 8px;
-        }
-        .description {
-            font-size: 0.9em;
-            margin-bottom: 10px;
-            color: #666;
-        }
-        .date {
-            font-size: 0.8em;
-            color: #888;
-            align-self: flex-end;
-        }
         .icon {
-            margin-right: 8px;
-            font-weight: bold;
-        }
-        .dashboard-icon::before {
-            content: "📊";
-        }
-        .quiz-icon::before {
-            content: "❓";
-        }
-        .dashboard-link:hover .description, .dashboard-link:hover .date,
-        .quiz-link:hover .description, .quiz-link:hover .date {
-            color: #ddd;
+            margin-right: 5px;
         }
     </style>
 </head>
@@ -85,18 +58,10 @@
     
     <div class="item-container">
         <a href="ww09/" class="dashboard-link">
-            <div>
-                <div class="title"><span class="icon dashboard-icon"></span>WW09 주간 이슈 동향</div>
-                <div class="description">디스플레이 기술, 기업 전략, 시장 동향 및 투자 계획 총정리</div>
-            </div>
-            <div class="date">2025년 3월</div>
+            <span class="icon">📊</span>WW09 주간 이슈 동향
         </a>
         <a href="ww09/quiz.html" class="quiz-link">
-            <div>
-                <div class="title"><span class="icon quiz-icon"></span>WW09 이해도 테스트</div>
-                <div class="description">주요 개발 현황, 시장 동향 관련 15문항 퀴즈</div>
-            </div>
-            <div class="date">2025년 3월</div>
+            <span class="icon">❓</span>WW09 퀴즈
         </a>
     </div>
     
@@ -104,18 +69,10 @@
     <!--
     <div class="item-container">
         <a href="ww10/" class="dashboard-link">
-            <div>
-                <div class="title"><span class="icon dashboard-icon"></span>WW10 주간 이슈 동향</div>
-                <div class="description">디스플레이 기술, 기업 전략, 시장 동향 및 투자 계획 총정리</div>
-            </div>
-            <div class="date">2025년 4월</div>
+            <span class="icon">📊</span>WW10 주간 이슈 동향
         </a>
         <a href="ww10/quiz.html" class="quiz-link">
-            <div>
-                <div class="title"><span class="icon quiz-icon"></span>WW10 이해도 테스트</div>
-                <div class="description">주요 개발 현황, 시장 동향 관련 15문항 퀴즈</div>
-            </div>
-            <div class="date">2025년 4월</div>
+            <span class="icon">❓</span>WW10 퀴즈
         </a>
     </div>
     -->
