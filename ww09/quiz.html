@@ -1,356 +1,498 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ww09 주간 이슈 동향 퀴즈</title>
+    <title>주간 이슈 동향 퀴즈 (ww09) - 20문항</title>
     <style>
         body {
             font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
-            background-color: #f4f7f9;
-            color: #333;
             line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+            margin: 0;
             padding: 20px;
         }
+
         .quiz-container {
-            max-width: 800px;
-            margin: 20px auto;
-            background-color: #ffffff;
-            padding: 30px;
+            background-color: #FFFFFF;
+            padding: 25px;
             border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: auto;
         }
-        h1, h2 {
-            color: #0F2C59; /* Navy Blue */
+
+        .quiz-header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            color: #0F2C59;
+            font-size: 22px;
+            font-weight: bold;
         }
+
         .question-block {
             margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #e0e0e0;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            background-color: #fff;
         }
-        .question-block:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-        }
+
         .question-text {
             font-weight: bold;
-            margin-bottom: 10px;
-            font-size: 1.1em;
-            color: #333;
+            margin-bottom: 15px;
+            font-size: 16px;
         }
+
         .options label {
             display: block;
-            margin-bottom: 8px;
-            padding: 10px 15px;
-            background-color: #f8f8f8;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            border: 1px solid #eee;
+            border-radius: 4px;
             cursor: pointer;
             transition: background-color 0.2s ease;
         }
+
         .options label:hover {
-            background-color: #e9eef2;
+            background-color: #f5f5f5;
         }
+
         .options input[type="radio"] {
-            margin-right: 10px;
+            margin-right: 8px;
+            vertical-align: middle;
         }
-        .submit-btn {
-            display: block;
-            width: 100%;
-            padding: 12px 20px;
-            font-size: 1.1em;
-            font-weight: bold;
-            color: #ffffff;
-            background-color: #0F2C59; /* Navy Blue */
+
+        .check-button {
+            padding: 8px 15px;
+            background-color: #0F2C59;
+            color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 4px;
             cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
             transition: background-color 0.2s ease;
-            margin-top: 30px;
         }
-        .submit-btn:hover {
-            background-color: #0b2142;
+
+        .check-button:hover {
+            background-color: #163d7f;
         }
-        .result {
-            margin-top: 30px;
-            padding: 20px;
-            background-color: #e9f5ff;
-            border: 1px solid #b3d7f0;
-            border-radius: 5px;
-            text-align: center;
-            display: none; /* Initially hidden */
+
+        .check-button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
         }
-        .result h2 {
-            color: #0F2C59;
-            margin-bottom: 15px;
-        }
-        .result p {
-            font-size: 1.2em;
-            font-weight: bold;
-        }
-        /* Feedback styles */
+
         .feedback {
-             font-size: 0.9em;
-             margin-top: 5px;
-             font-weight: bold;
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            display: none;
+            /* Initially hidden */
         }
-        .correct { color: #28a745; } /* Green */
-        .incorrect { color: #dc3545; } /* Red */
-        .correct-answer {
-            background-color: #d4edda; /* Light green background for correct option */
-            border-color: #c3e6cb;
+
+        .feedback.correct {
+            background-color: #e7f4e4;
+            /* Light green */
+            border: 1px solid #c3e6cb;
+            color: #155724;
         }
-        .selected-incorrect {
-             background-color: #f8d7da; /* Light red background for selected incorrect option */
-             border-color: #f5c6cb;
+
+        .feedback.incorrect {
+            background-color: #f8d7da;
+            /* Light red */
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+
+        .explanation {
+            margin-top: 8px;
+            font-style: italic;
+            color: #555;
+        }
+
+        .correct-answer-label {
+            background-color: #d4edda !important;
+            /* Ensure highlighting overrides hover */
+            border-color: #c3e6cb !important;
         }
     </style>
 </head>
+
 <body>
+
     <div class="quiz-container">
-        <h1>주간 이슈 동향 퀴즈 (ww09)</h1>
-        <p>문서 내용을 바탕으로 한 퀴즈입니다. 각 문제의 정답을 선택하고 제출 버튼을 누르세요.</p>
-        <form id="quiz-form">
+        <div class="quiz-header">주간 이슈 동향 복습 퀴즈 (20문항)</div>
 
-            <div class="question-block" id="q1">
-                <p class="question-text">1. N사가 NY향 Fold 제품에 UDC 기술을 적용 목표로 하는 연도는?</p>
-                <div class="options">
-                    <label><input type="radio" name="q1" value="A"> A) '25년</label>
-                    <label><input type="radio" name="q1" value="B"> B) '26년</label>
-                    <label><input type="radio" name="q1" value="C"> C) '27년</label>
-                    <label><input type="radio" name="q1" value="D"> D) '28년</label>
-                </div>
-                <div class="feedback"></div>
+        <div class="question-block" id="q1">
+            <div class="question-text">1. N사가 NY향 Fold 제품에 UDC 기술을 적용 목표로 하는 연도는?</div>
+            <div class="options">
+                <label><input type="radio" name="q1" value="a"> a) 2025년</label>
+                <label><input type="radio" name="q1" value="b"> b) 2026년</label>
+                <label><input type="radio" name="q1" value="c"> c) 2027년</label>
+                <label><input type="radio" name="q1" value="d"> d) 2028년</label>
             </div>
-
-            <div class="question-block" id="q2">
-                <p class="question-text">2. N사가 TCO 기술 양산 적용 일정을 기존 '28년에서 단축 검토하는 주된 이유는 무엇과 연계하기 위함인가?</p>
-                <div class="options">
-                    <label><input type="radio" name="q2" value="A"> A) QD OLED</label>
-                    <label><input type="radio" name="q2" value="B"> B) Auto</label>
-                    <label><input type="radio" name="q2" value="C"> C) UDC</label>
-                    <label><input type="radio" name="q2" value="D"> D) LTPO</label>
-                </div>
-                 <div class="feedback"></div>
+            <button class="check-button" onclick="checkAnswer('q1', 'c')">정답 확인</button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation">문서 1번 항목에 따르면, N사는 '27년 NY Fold 제품 UDC 적용을 타겟으로 개발 중입니다. ('27년 Bar Type S/P Pro
+                    라인에도 적용 계획)</div>
             </div>
-
-            <div class="question-block" id="q3">
-                <p class="question-text">3. N사가 Auto 사업에서 프리미엄 존 고객에게 강조하려는 핵심 전략은?</p>
-                <div class="options">
-                    <label><input type="radio" name="q3" value="A"> A) 원가 경쟁력</label>
-                    <label><input type="radio" name="q3" value="B"> B) GO 패널 사용</label>
-                    <label><input type="radio" name="q3" value="C"> C) 기술 차별화</label>
-                    <label><input type="radio" name="q3" value="D"> D) LCD 즉시 대체</label>
-                </div>
-                 <div class="feedback"></div>
-            </div>
-
-            <div class="question-block" id="q4">
-                <p class="question-text">4. NY Victor가 N사를 방문하여 논의한 DDIC 개선 계획에서 목표로 하는 공정 기술은?</p>
-                <div class="options">
-                    <label><input type="radio" name="q4" value="A"> A) 40nm Bulk</label>
-                    <label><input type="radio" name="q4" value="B"> B) 28nm FD-SOI</label>
-                    <label><input type="radio" name="q4" value="C"> C) 16~17nm FinFET</label>
-                    <label><input type="radio" name="q4" value="D"> D) 10nm GAA</label>
-                </div>
-                 <div class="feedback"></div>
-            </div>
-
-            <div class="question-block" id="q5">
-                <p class="question-text">5. N사의 '24년 QD OLED MNT 실제 출하량은 약 얼마인가?</p>
-                <div class="options">
-                    <label><input type="radio" name="q5" value="A"> A) 0.5M</label>
-                    <label><input type="radio" name="q5" value="B"> B) 1.0M</label>
-                    <label><input type="radio" name="q5" value="C"> C) 1.4M</label>
-                    <label><input type="radio" name="q5" value="D"> D) 2.0M</label>
-                </div>
-                 <div class="feedback"></div>
-            </div>
-
-             <div class="question-block" id="q6">
-                <p class="question-text">6. BOE가 아이폰 17/17 Pro Qual 완료를 목표로 하는 시점은?</p>
-                <div class="options">
-                    <label><input type="radio" name="q6" value="A"> A) '24년 8월</label>
-                    <label><input type="radio" name="q6" value="B"> B) '24년 10월</label>
-                    <label><input type="radio" name="q6" value="C"> C) '25년 1월</label>
-                    <label><input type="radio" name="q6" value="D"> D) '25년 5월</label>
-                </div>
-                 <div class="feedback"></div>
-            </div>
-
-             <div class="question-block" id="q7">
-                <p class="question-text">7. BOE의 '25년 NY SP 총 출하 계획이 기존 55M에서 48M으로 변경된 주된 이유는?</p>
-                <div class="options">
-                    <label><input type="radio" name="q7" value="A"> A) 기술 개발 성공</label>
-                    <label><input type="radio" name="q7" value="B"> B) 경쟁사 시장 진입</label>
-                    <label><input type="radio" name="q7" value="C"> C) NY의 재고 이슈 및 가격 압박</label>
-                    <label><input type="radio" name="q7" value="D"> D) 주력 공장 생산 Capa 부족</label>
-                </div>
-                 <div class="feedback"></div>
-            </div>
-
-             <div class="question-block" id="q8">
-                <p class="question-text">8. CSOT가 T8 PJT 투자를 결정할 것으로 예상되는 시점은?</p>
-                <div class="options">
-                    <label><input type="radio" name="q8" value="A"> A) '24년 4분기</label>
-                    <label><input type="radio" name="q8" value="B"> B) '25년 1분기</label>
-                    <label><input type="radio" name="q8" value="C"> C) '25년 3분기</label>
-                    <label><input type="radio" name="q8" value="D"> D) '26년 1분기</label>
-                </div>
-                 <div class="feedback"></div>
-            </div>
-
-             <div class="question-block" id="q9">
-                <p class="question-text">9. HKC가 최근 인수한 파산한 Royole의 자산이 아닌 것은?</p>
-                <div class="options">
-                    <label><input type="radio" name="q9" value="A"> A) G5.5 공장 건물</label>
-                    <label><input type="radio" name="q9" value="B"> B) 생산 장비</label>
-                    <label><input type="radio" name="q9" value="C"> C) 기술 특허</label>
-                    <label><input type="radio" name="q9" value="D"> D) G8.6 Fab 라인</label>
-                </div>
-                 <div class="feedback"></div>
-            </div>
-
-             <div class="question-block" id="q10">
-                <p class="question-text">10. '25년 OLED NBPC 시장에서 N사의 예상 출하량 목표는 얼마인가?</p>
-                <div class="options">
-                    <label><input type="radio" name="q10" value="A"> A) 2.4M</label>
-                    <label><input type="radio" name="q10" value="B"> B) 5M</label>
-                    <label><input type="radio" name="q10" value="C"> C) 10M</label>
-                    <label><input type="radio" name="q10" value="D"> D) 12.7M</label>
-                </div>
-                 <div class="feedback"></div>
-            </div>
-
-            <div class="question-block" id="q11">
-                <p class="question-text">11. LGE가 TV 패널 구매 비중을 BOE에서 CSOT로 전환하는 이유로 언급되지 않은 것은?</p>
-                <div class="options">
-                    <label><input type="radio" name="q11" value="A"> A) BOE 구매 비중 과다 (50% 육박)</label>
-                    <label><input type="radio" name="q11" value="B"> B) 대안 업체 HKC의 품질 이슈 발생</label>
-                    <label><input type="radio" name="q11" value="C"> C) CSOT 패널의 월등한 가격 경쟁력 우위</label>
-                    <label><input type="radio" name="q11" value="D"> D) LGE가 선호하는 MOKA ODM이 TCL(CSOT) 자회사임</label>
-                </div>
-                 <div class="feedback"></div>
-            </div>
-
-            <div class="question-block" id="q12">
-                 <p class="question-text">12. CSOT가 T5 Pilot Line 및 T8 투자에서 중점적으로 개발/양산하는 OLED 기술 방식은?</p>
-                 <div class="options">
-                     <label><input type="radio" name="q12" value="A"> A) FMM WOLED</label>
-                     <label><input type="radio" name="q12" value="B"> B) FMM RGB</label>
-                     <label><input type="radio" name="q12" value="C"> C) IJP OLED</label>
-                     <label><input type="radio" name="q12" value="D"> D) QD-OLED</label>
-                 </div>
-                  <div class="feedback"></div>
-            </div>
-
-             <div class="question-block" id="q13">
-                 <p class="question-text">13. N사의 '25년 QD OLED MNT 목표 출하량은 얼마인가?</p>
-                 <div class="options">
-                     <label><input type="radio" name="q13" value="A"> A) 1.4M</label>
-                     <label><input type="radio" name="q13" value="B"> B) 2.0M</label>
-                     <label><input type="radio" name="q13" value="C"> C) 2.5M</label>
-                     <label><input type="radio" name="q13" value="D"> D) 3.0M</label>
-                 </div>
-                  <div class="feedback"></div>
-            </div>
-
-             <div class="question-block" id="q14">
-                 <p class="question-text">14. N사가 Auto 사업 볼륨존 GO 패널에서 목표로 하는 판가 수준은 LCD 대비 어느 정도인가?</p>
-                 <div class="options">
-                     <label><input type="radio" name="q14" value="A"> A) 동일 수준</label>
-                     <label><input type="radio" name="q14" value="B"> B) 1.3배 수준</label>
-                     <label><input type="radio" name="q14" value="C"> C) 1.5배 수준</label>
-                     <label><input type="radio" name="q14" value="D"> D) 2배 수준</label>
-                 </div>
-                  <div class="feedback"></div>
-            </div>
-
-             <div class="question-block" id="q15">
-                 <p class="question-text">15. '27년 적용될 16~17nm FinFET DDIC 탑재 시 예상되는 소비 전력 감소 수준은 기존 40nm 대비 어느 정도인가?</p>
-                 <div class="options">
-                     <label><input type="radio" name="q15" value="A"> A) 1/2 수준</label>
-                     <label><input type="radio" name="q15" value="B"> B) 1/3 수준</label>
-                     <label><input type="radio" name="q15" value="C"> C) 1/4 수준</label>
-                     <label><input type="radio" name="q15" value="D"> D) 1/5 수준</label>
-                 </div>
-                  <div class="feedback"></div>
-            </div>
-
-            <button type="submit" class="submit-btn">결과 확인</button>
-        </form>
-
-        <div id="result" class="result">
-            <h2>퀴즈 결과</h2>
-            <p><span id="score">0</span> / 15</p>
         </div>
+
+        <div class="question-block" id="q2">
+            <div class="question-text">2. N사의 Auto 사업 프리미엄 제품에 적용될 5대 핵심 기술이 <u>아닌</u> 것은?</div>
+            <div class="options">
+                <label><input type="radio" name="q2" value="a"> a) FMP (Flex Magic Pixel)</label>
+                <label><input type="radio" name="q2" value="b"> b) LCF (Light Control Film)</label>
+                <label><input type="radio" name="q2" value="c"> c) IJP (Inkjet Printing)</label>
+                <label><input type="radio" name="q2" value="d"> d) UDC (Under Display Camera)</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q2', 'c')">정답 확인</button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation">문서 3번 항목에서 N사의 5대 기술은 FMP, LCF, UDC, FIDM, 1GMD로 언급됩니다. IJP는 주로 CSOT의 기술 개발과
+                    관련하여 언급됩니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q3">
+            <div class="question-text">3. NY Victor 방문 시 논의된 DDIC 소비전력 개선 방안으로, '27년 적용 목표인 신규 공정은?</div>
+            <div class="options">
+                <label><input type="radio" name="q3" value="a"> a) 28nm Bulk</label>
+                <label><input type="radio" name="q3" value="b"> b) 40nm Bulk</label>
+                <label><input type="radio" name="q3" value="c"> c) 16~17nm FinFET</label>
+                <label><input type="radio" name="q3" value="d"> d) 10nm FinFET</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q3', 'c')">정답 확인</button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation">문서 4번 항목에 따르면, '27년 16~17nm 공정 High Voltage FinFET 공법 적용 DDIC를 탑재할 계획이며, 이는 현
+                    40nm 대비 소비전력을 1/3 수준으로 감소시킬 것으로 예상됩니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q4">
+            <div class="question-text">4. N사의 '24년 QD OLED MNT 실제 출하량은 얼마였나요?</div>
+            <div class="options">
+                <label><input type="radio" name="q4" value="a"> a) 0.5M대</label>
+                <label><input type="radio" name="q4" value="b"> b) 1.0M대</label>
+                <label><input type="radio" name="q4" value="c"> c) 1.4M대</label>
+                <label><input type="radio" name="q4" value="d"> d) 1.5M대</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q4', 'c')">정답 확인</button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation">문서 5번 항목에 따르면, N사는 '24년 QD MNT 1.5M대 출하 계획을 수립하고 목표에 가까운 1.4M대를 달성하여 성공적인 판매로
+                    평가받았습니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q5">
+            <div class="question-text">5. BOE가 아이폰 17/17Pro의 Qual을 완료하고 신규 공급을 추진 목표로 하는 시점은?</div>
+            <div class="options">
+                <label><input type="radio" name="q5" value="a"> a) '25년 5월</label>
+                <label><input type="radio" name="q5" value="b"> b) '25년 9월</label>
+                <label><input type="radio" name="q5" value="c"> c) '25년 10월</label>
+                <label><input type="radio" name="q5" value="d"> d) '26년 1월</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q5', 'c')">정답 확인</button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation">문서 6번 항목에 따르면, BOE는 LTPO 개발 문제 이후 '올해(2025년) 10월까지' 아이폰 17/17Pro의 Qual(Panel
+                    Qual 9월, Module Qual 10월) 완료를 목표로 하고 있습니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q6">
+            <div class="question-text">6. NY 재고 이슈 등으로 수정된 BOE의 '25년 NY향 스마트폰 패널 총 출하 계획 물량은?</div>
+            <div class="options">
+                <label><input type="radio" name="q6" value="a"> a) 55M대</label>
+                <label><input type="radio" name="q6" value="b"> b) 50M대</label>
+                <label><input type="radio" name="q6" value="c"> c) 48M대</label>
+                <label><input type="radio" name="q6" value="d"> d) 45M대</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q6', 'c')">정답 확인</button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation">문서 7번 항목에 따르면, BOE는 작년 말 수립한 55M대 계획에서 애플의 재고 이슈 및 가격 인하 압박 등으로 상반기 물량을 축소하여
+                    '25년 총 출하 계획을 48M 수준으로 변경했습니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q7">
+            <div class="question-text">7. CSOT가 T8 IJP OLED Fab 투자 의사 결정을 계획하고 있는 시기는?</div>
+            <div class="options">
+                <label><input type="radio" name="q7" value="a"> a) '25년 1분기</label>
+                <label><input type="radio" name="q7" value="b"> b) '25년 2분기</label>
+                <label><input type="radio" name="q7" value="c"> c) '25년 3분기</label>
+                <label><input type="radio" name="q7" value="d"> d) '25년 4분기</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q7', 'c')">정답 확인</button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation">문서 8번 항목에 따르면, CSOT는 IJP OLED 기반 NBPC 개발/양산을 3분기에 추진하고, 실제 T8 투자 의사 결정도 같은 시기인
+                    '25년 3분기에 결정할 전망입니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q8">
+            <div class="question-text">8. HKC가 최근 건물, 장비, 특허 등을 매입한 파산한 회사는 어디인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q8" value="a"> a) Visionox</label>
+                <label><input type="radio" name="q8" value="b"> b) EDO</label>
+                <label><input type="radio" name="q8" value="c"> c) Tianma</label>
+                <label><input type="radio" name="q8" value="d"> d) Royole</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q8', 'd')">정답 확인</button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation">문서 9번 항목에 따르면, HKC는 최근 파산한 Royole의 G5.5 공장 건물(12개), 장비(1,961개), 특허(3,000여개)를 약
+                    5억 위안에 매입했습니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q9">
+            <div class="question-text">9. '25년 OLED NBPC 시장의 예상 총 출하량은 얼마인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q9" value="a"> a) 9.2M대</label>
+                <label><input type="radio" name="q9" value="b"> b) 12.7M대</label>
+                <label><input type="radio" name="q9" value="c"> c) 13.5M대</label>
+                <label><input type="radio" name="q9" value="d"> d) 15.9M대</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q9', 'c')">정답 확인</button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation">문서 10번 항목에 따르면, '24년 실적은 9.2M대였으며, '25년 BP는 15.9M대, 실제 계획(예상)은 13.5M대입니다. 질문은
+                    예상 총 출하량을 묻고 있으므로 13.5M대가 정답입니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q10">
+            <div class="question-text">10. LGE TV 패널 공급사를 BOE에서 CSOT로 전환하는 이유로 언급되지 <u>않은</u> 것은?</div>
+            <div class="options">
+                <label><input type="radio" name="q10" value="a"> a) BOE 공급 비중 조절 필요성</label>
+                <label><input type="radio" name="q10" value="b"> b) HKC 품질 이슈로 대안 부재</label>
+                <label><input type="radio" name="q10" value="c"> c) CSOT의 IJP 기술 우위</label>
+                <label><input type="radio" name="q10" value="d"> d) CSOT 자회사 MOKA ODM 선호</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q10', 'c')">정답 확인</button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation">문서 11번 항목에서 LGE가 CSOT로 전환하는 이유로 BOE 비중 조절(50% 육박), HKC 품질 이슈, 저렴한 가격과 MOKA ODM
+                    선호, CSOT의 적극적 프로모션 등이 언급되었습니다. CSOT의 IJP 기술 자체의 우위가 LGE TV 패널 전환의 직접적인 이유로 명시되지는 않았습니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q11">
+            <div class="question-text">11. N사가 UDC 기술의 Cathode Patterning에 현재 적용 가능성이 높다고 보는 기술은?</div>
+            <div class="options">
+                <label><input type="radio" name="q11" value="a"> a) Laser Patterning</label>
+                <label><input type="radio" name="q11" value="b"> b) MPL</label>
+                <label><input type="radio" name="q11" value="c"> c) FMM</label>
+                <label><input type="radio" name="q11" value="d"> d) IJP</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q11', 'b')">정답 확인</button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation">문서 1번 항목에 따르면, N사는 UDC 기술 적용 시 Cathode Patterning 관련 과거 Laser Patterning 양산 이력이
+                    있으나, 현재는 MPL 기술 적용 가능성이 높은 상황이라고 언급합니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q12">
+            <div class="question-text">12. N사가 NY향 TCO 개발 시 NY 요청으로 테스트 중인 재료가 <u>아닌</u> 것은?</div>
+            <div class="options">
+                <label><input type="radio" name="q12" value="a"> a) ZnO</label>
+                <label><input type="radio" name="q12" value="b"> b) AZO</label>
+                <label><input type="radio" name="q12" value="c"> c) IZO</label>
+                <label><input type="radio" name="q12" value="d"> d) FTO</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q12', 'c')">정답 확인</button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation">문서 2번 항목에 따르면, N사는 NY 요청으로 인해 TCO 재료에 ZnO/AZO/FTO 등 Test를 진행 중이며, 또한 내부적으로 IZO
+                    재료 개발도 진행 중이라고 언급됩니다. 따라서 NY 요청으로 테스트 중인 재료가 아닌 것은 IZO입니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q13">
+            <div class="question-text">13. N사 Auto 사업의 볼륨존(GO) 전략 목표 중 하나인 목표 이익률은?</div>
+            <div class="options">
+                <label><input type="radio" name="q13" value="a"> a) 5% 초반</label>
+                <label><input type="radio" name="q13" value="b"> b) 10% 중반</label>
+                <label><input type="radio" name="q13" value="c"> c) 15% 초반</label>
+                <label><input type="radio" name="q13" value="d"> d) 20% 중반</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q13', 'b')">정답 확인</button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation">문서 3번 항목에 따르면, 볼륨존의 GO는 극한의 원가 절감으로 이익률 10% 중반을 확보한다는 계획입니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q14">
+            <div class="question-text">14. N사의 '24년 QD OLED MNT 최대 출하 고객사는 어디였나요?</div>
+            <div class="options">
+                <label><input type="radio" name="q14" value="a"> a) Dell</label>
+                <label><input type="radio" name="q14" value="b"> b) MSI</label>
+                <label><input type="radio" name="q14" value="c"> c) VD (삼성전자 VD사업부)</label>
+                <label><input type="radio" name="q14" value="d"> d) TPV</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q14', 'c')">정답 확인</button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation">문서 5번 항목의 '24년 주요 고객사별 출하량을 보면 VD 0.5M대, Dell 0.3M대, MSI 0.2M대, TPV 0.2M대 등으로
+                    VD가 가장 많았습니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q15">
+            <div class="question-text">15. BOE가 LTPO 개발 문제로 인해 초기에 진입하지 못한 아이폰 모델은 구체적으로 무엇인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q15" value="a"> a) 아이폰 15 Pro</label>
+                <label><input type="radio" name="q15" value="b"> b) 아이폰 16 일반</label>
+                <label><input type="radio" name="q15" value="c"> c) 아이폰 16e 외 신모델</label>
+                <label><input type="radio" name="q15" value="d"> d) 아이폰 SE 4세대</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q15', 'c')">정답 확인</button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation">문서 6번 항목 첫 문장에 "LTPO 개발 문제로 LTPS 아이폰16e 외 신모델 진입을 하지 못한 BOE"라고 명시되어 있습니다. 이는
+                    16e 모델 외 다른 (아마도 Pro) 모델 진입에 실패했음을 의미합니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q16">
+            <div class="question-text">16. 수정된 BOE의 '25년 NY SP 분기별 계획 중, 하반기(Q3+Q4)에 가장 큰 비중을 차지할 것으로 계획된 모델은?</div>
+            <div class="options">
+                <label><input type="radio" name="q16" value="a"> a) 아이폰 17</label>
+                <label><input type="radio" name="q16" value="b"> b) 아이폰 16</label>
+                <label><input type="radio" name="q16" value="c"> c) 아이폰 SE</label>
+                <label><input type="radio" name="q16" value="d"> d) 구모델</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q16', 'd')">정답 확인</button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation">문서 7번의 분기별 출하 계획을 보면, Q3 구모델 7M, Q4 구모델 6M으로 하반기 총 13M이 계획되어, 하반기 SE(4M+4M=8M),
+                    16(4M+4M=8M), 17(0M+2M=2M)보다 많습니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q17">
+            <div class="question-text">17. CSOT의 T8 PJT 검토가 시작된 시점은 언제인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q17" value="a"> a) '18년</label>
+                <label><input type="radio" name="q17" value="b"> b) '20년</label>
+                <label><input type="radio" name="q17" value="c"> c) '22년</label>
+                <label><input type="radio" name="q17" value="d"> d) '23년</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q17', 'b')">정답 확인</button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation">문서 8번 항목 첫 문장에 "지난 '20년부터 검토 되었던 CSOT의 T8 IJP OLED Fab 투자 PJT"라고 언급되어 있습니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q18">
+            <div class="question-text">18. HKC가 Royole 자산을 인수한 금액은 약 얼마인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q18" value="a"> a) 1억 위안</label>
+                <label><input type="radio" name="q18" value="b"> b) 3억 위안</label>
+                <label><input type="radio" name="q18" value="c"> c) 5억 위안</label>
+                <label><input type="radio" name="q18" value="d"> d) 10억 위안</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q18', 'c')">정답 확인</button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation">문서 9번 항목에 따르면, HKC는 Royole의 G5.5 공장 건물, 장비, 특허를 약 5억 위안(7,000만달러, 약 1,000억원)에
+                    매입했습니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q19">
+            <div class="question-text">19. '25년 OLED NBPC 시장에서 N사 다음으로 가장 많은 출하량을 계획하고 있는 업체는?</div>
+            <div class="options">
+                <label><input type="radio" name="q19" value="a"> a) EDO</label>
+                <label><input type="radio" name="q19" value="b"> b) BOE</label>
+                <label><input type="radio" name="q19" value="c"> c) Visionox</label>
+                <label><input type="radio" name="q19" value="d"> d) CSOT</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q19', 'a')">정답 확인</button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation">문서 10번 항목의 '25년 업체별 예상 출하량을 보면 N사(10M) 다음으로 EDO가 2.4M를 계획하고 있어 BOE(0.3M),
+                    Visionox(0.3M), CSOT(0.04M)보다 훨씬 많습니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q20">
+            <div class="question-text">20. LGE TV 패널 공급사 전환 논의에서, LGE가 선호하는 ODM 업체로 언급된 곳은 어디의 자회사인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q20" value="a"> a) BOE</label>
+                <label><input type="radio" name="q20" value="b"> b) HKC</label>
+                <label><input type="radio" name="q20" value="c"> c) TCL</label>
+                <label><input type="radio" name="q20" value="d"> d) Foxconn</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q20', 'c')">정답 확인</button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation">문서 11번 항목에서 LGE가 선호하는 MOKA ODM이 TCL의 자회사이기 때문에 CSOT(TCL 계열사)로 전환하는 이유 중 하나로
+                    언급됩니다.</div>
+            </div>
+        </div>
+
     </div>
 
     <script>
-        const quizForm = document.getElementById('quiz-form');
-        const resultDiv = document.getElementById('result');
-        const scoreSpan = document.getElementById('score');
+        function checkAnswer(questionId, correctAnswer) {
+            const questionBlock = document.getElementById(questionId);
+            const selectedOption = questionBlock.querySelector(`input[name="${questionId}"]:checked`);
+            const feedbackElement = questionBlock.querySelector('.feedback');
+            const resultSpan = feedbackElement.querySelector('.result');
+            const checkButton = questionBlock.querySelector('.check-button');
+            const radioButtons = questionBlock.querySelectorAll(`input[name="${questionId}"]`);
+            const labels = questionBlock.querySelectorAll('.options label'); // Get all labels
 
-        const correctAnswers = {
-            q1: 'C', q2: 'C', q3: 'C', q4: 'C', q5: 'C',
-            q6: 'B', q7: 'C', q8: 'C', q9: 'D', q10: 'C',
-            q11: 'C', q12: 'C', q13: 'C', q14: 'B', q15: 'B'
-        };
-
-        quizForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent form submission
-
-            let score = 0;
-            const totalQuestions = Object.keys(correctAnswers).length;
-
-            // Clear previous feedback
-            document.querySelectorAll('.feedback').forEach(fb => fb.textContent = '');
-            document.querySelectorAll('.options label').forEach(label => {
-                label.classList.remove('correct-answer', 'selected-incorrect');
-            });
-
-            // Check answers and provide feedback
-            for (const question in correctAnswers) {
-                const selectedOption = quizForm.elements[question].value;
-                const questionBlock = document.getElementById(question);
-                const feedbackDiv = questionBlock.querySelector('.feedback');
-                const options = questionBlock.querySelectorAll('.options label');
-
-                if (selectedOption) {
-                    const correctAnswer = correctAnswers[question];
-                    const selectedLabel = questionBlock.querySelector(`input[value="${selectedOption}"]`).parentElement;
-                    const correctLabel = questionBlock.querySelector(`input[value="${correctAnswer}"]`).parentElement;
-
-                    if (selectedOption === correctAnswer) {
-                        score++;
-                        feedbackDiv.textContent = '정답입니다!';
-                        feedbackDiv.className = 'feedback correct';
-                        selectedLabel.classList.add('correct-answer');
-                    } else {
-                        feedbackDiv.textContent = `오답입니다. (정답: ${correctAnswer})`;
-                        feedbackDiv.className = 'feedback incorrect';
-                        selectedLabel.classList.add('selected-incorrect');
-                        correctLabel.classList.add('correct-answer'); // Also show the correct answer
-                    }
-                } else {
-                    feedbackDiv.textContent = '답변을 선택해주세요.';
-                    feedbackDiv.className = 'feedback incorrect';
-                    // Highlight the correct answer if none selected
-                     const correctLabel = questionBlock.querySelector(`input[value="${correctAnswers[question]}"]`).parentElement;
-                     correctLabel.classList.add('correct-answer');
-                }
+            if (!selectedOption) {
+                alert("답변을 선택해주세요!");
+                return;
             }
 
-            // Display result
-            scoreSpan.textContent = score;
-            resultDiv.style.display = 'block';
+            const userAnswer = selectedOption.value;
 
-             // Scroll to the top of the results div
-             resultDiv.scrollIntoView({ behavior: 'smooth' });
-        });
+            // Reset previous label highlights
+            labels.forEach(label => {
+                label.classList.remove('correct-answer-label');
+            });
+
+            if (userAnswer === correctAnswer) {
+                resultSpan.textContent = "정답입니다!";
+                feedbackElement.className = 'feedback correct'; // Reset class and add 'correct'
+                selectedOption.parentElement.classList.add('correct-answer-label'); // Highlight correct selected label
+            } else {
+                resultSpan.textContent = "오답입니다.";
+                feedbackElement.className = 'feedback incorrect'; // Reset class and add 'incorrect'
+                // Highlight the correct answer's label even if wrong answer selected
+                const correctLabel = questionBlock.querySelector(`input[value="${correctAnswer}"]`).parentElement;
+                correctLabel.classList.add('correct-answer-label');
+            }
+
+            feedbackElement.style.display = 'block'; // Show feedback
+            checkButton.disabled = true; // Disable button after checking
+
+            // Disable radio buttons
+            radioButtons.forEach(radio => {
+                radio.disabled = true;
+            });
+        }
     </script>
 
 </body>
+
 </html>
