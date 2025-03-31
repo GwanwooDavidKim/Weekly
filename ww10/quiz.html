@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> 주간 이슈 동향 퀴즈 (ww10) - 20문항 </title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .quiz-container {
+            background-color: #FFFFFF;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .quiz-header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #0F2C59;
+            /* Navy Blue from dashboard style */
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .question-block {
+            margin-bottom: 25px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+
+        .question-text {
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .options label {
+            display: block;
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .options label:hover {
+            background-color: #f5f5f5;
+        }
+
+        .options input[type="radio"] {
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        .check-button {
+            padding: 8px 15px;
+            background-color: #0F2C59;
+            /* Navy Blue */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+            transition: background-color 0.2s ease;
+        }
+
+        .check-button:hover {
+            background-color: #163d7f;
+            /* Darker Navy Blue */
+        }
+
+        .check-button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .feedback {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            display: none;
+            /* Initially hidden */
+        }
+
+        .feedback.correct {
+            background-color: #e7f4e4;
+            /* Light green */
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .feedback.incorrect {
+            background-color: #f8d7da;
+            /* Light red */
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+
+        .explanation {
+            margin-top: 8px;
+            font-style: italic;
+            color: #555;
+        }
+
+        .correct-answer-label {
+            background-color: #d4edda !important;
+            /* Ensure highlighting overrides hover */
+            border-color: #c3e6cb !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="quiz-container">
+        <div class="quiz-header"> ww10 주간 이슈 동향 복습 퀴즈 (20문항) </div>
+
+        <div class="question-block" id="q1">
+            <div class="question-text"> 1. N사가 '25년부터 GA NBPC 고객들에게 주로 제안하기로 변경한 소자 방식은 무엇인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q1" value="a"> a) Tandem 소자</label>
+                <label><input type="radio" name="q1" value="b"> b) Single 소자</label>
+                <label><input type="radio" name="q1" value="c"> c) LTPO 소자</label>
+                <label><input type="radio" name="q1" value="d"> d) OVJP 소자</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q1', 'b')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 1번 항목: N사는 올해 들어 Single 소자 기반 NBPC Biz. 제안으로 노선을 변경했습니다. G5.5 A2 라인의 증착 제약
+                    및 G8.6 A6 투자 보류 등과 관련이 있습니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q2">
+            <div class="question-text"> 2. N사 A4 라인과 BOE B12 라인이 각각 보유한 고해상도(1.2um급) G6 PO 노광기 모델은 무엇인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q2" value="a"> a) N사: Nikon FX 6AS / BOE: Canon E903T</label>
+                <label><input type="radio" name="q2" value="b"> b) N사: Canon E813H / BOE: Nikon FX 68SH</label>
+                <label><input type="radio" name="q2" value="c"> c) N사: Canon E903T / BOE: Nikon FX 6AS</label>
+                <label><input type="radio" name="q2" value="d"> d) N사: Nikon FX 68SH / BOE: Canon E813H</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q2', 'c')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 2번 항목: N사 A4는 Canon E903T (1.2um) 2대를, BOE B12는 Nikon FX 6AS (1.2um) 3대를
+                    보유하고 있습니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q3">
+            <div class="question-text"> 3. N사가 NY 요청으로 Foldable S/P용 TCO 개발 시 테스트 중인 재료가 <u>아닌</u> 것은 무엇인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q3" value="a"> a) ZnO</label>
+                <label><input type="radio" name="q3" value="b"> b) IZO</label>
+                <label><input type="radio" name="q3" value="c"> c) ATO</label>
+                <label><input type="radio" name="q3" value="d"> d) FTO</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q3', 'b')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 3번 항목: N사는 NY 요청으로 ZnO, ATO, FTO 등을 테스트 중이며, IZO는 내부적으로 병행하여 평가 중인 재료입니다.
+                    NY가 직접 요청한 테스트 대상은 아닙니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q4">
+            <div class="question-text"> 4. N사가 MPO(eLEAP) 유사 기술 검토 시, OVJP 기술과 결합하여 검토 중인 부가 기술은 무엇과 관련있나요?</div>
+            <div class="options">
+                <label><input type="radio" name="q4" value="a"> a) Laser Lift Off (LITI)</label>
+                <label><input type="radio" name="q4" value="b"> b) Orthogonal사의 불소계 보호층(희생층)</label>
+                <label><input type="radio" name="q4" value="c"> c) Fine Metal Mask (FMM)</label>
+                <label><input type="radio" name="q4" value="d"> d) Tandem 증착 기술</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q4', 'b')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 4번 항목: N사는 OVJP 기술에 Orthogonal사의 보호층 특허 관련 기술(불소계 보호층)을 접목하여 검토 중입니다. 이는
+                    RGB Pixel 간 간섭/혼합 이슈 개선 목적입니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q5">
+            <div class="question-text"> 5. '25년 1분기 N사의 아이폰 총 출하량 전망치는 얼마인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q5" value="a"> a) 17M만대</label>
+                <label><input type="radio" name="q5" value="b"> b) 23M만대</label>
+                <label><input type="radio" name="q5" value="c"> c) 34M만대</label>
+                <label><input type="radio" name="q5" value="d"> d) 50M만대</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q5', 'b')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 5번 항목: N사의 '25년 1분기 아이폰 출하는 총 23M만대 수준으로 전망됩니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q6">
+            <div class="question-text"> 6. NY의 개발 VP인 Victor가 BOE 방문 시, BOE가 '25년 10월까지 Qual 승인을 받겠다고 강하게 어필한 제품군은
+                무엇인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q6" value="a"> a) WOLED MNT</label>
+                <label><input type="radio" name="q6" value="b"> b) ADS Pro TV Panel</label>
+                <label><input type="radio" name="q6" value="c"> c) LTPO 아이폰 패널 (D912/967)</label>
+                <label><input type="radio" name="q6" value="d"> d) Foldable S/P 패널</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q6', 'c')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 6번 항목: BOE는 회의에서 LTPO 제품 개발 동향과 Qual 승인 일정 (D912/967 10월 Qual 승인) 등을 강하게
+                    어필하며 올해 LTPO 라인업 진입 의지를 보였습니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q7">
+            <div class="question-text"> 7. BOE가 WOLED MNT 개발과 관련하여 전환 투자를 검토 중인 Fab과 예상 Capa는 얼마인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q7" value="a"> a) B5 Fab, 15K Capa</label>
+                <label><input type="radio" name="q7" value="b"> b) B12 Fab, 30K Capa</label>
+                <label><input type="radio" name="q7" value="c"> c) B16 Fab, 60K Capa</label>
+                <label><input type="radio" name="q7" value="d"> d) B19 Fab, 45K Capa</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q7', 'd')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 7번 항목: BOE는 G8.5 LCD 라인인 B19 Fab에서 WOLED MNT로의 전환 투자를 검토 중이며, 예상 Capa는 45K
+                    수준입니다. 결정 시점은 '26년 하반기로 예상됩니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q8">
+            <div class="question-text"> 8. LGE가 올해부터 도입하기로 결정한 BOE의 TV 패널 기술은 무엇인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q8" value="a"> a) WOLED</label>
+                <label><input type="radio" name="q8" value="b"> b) ADS Pro</label>
+                <label><input type="radio" name="q8" value="c"> c) LTPO</label>
+                <label><input type="radio" name="q8" value="d"> d) QLED</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q8', 'b')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 8번 항목: LGE는 작년 하반기 검토 후 올해부터 BOE의 ADS Pro Panel(광시야각 기술) 도입을 결정했으며, 3월 7일
+                    관련 TMM을 진행했습니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q9">
+            <div class="question-text"> 9. SSE가 '25년 3분기 출시 전망인 VR 제품에 탑재될 OLEDoS 패널의 공급사와 사양은 무엇인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q9" value="a"> a) N사, 1.1" 2K</label>
+                <label><input type="radio" name="q9" value="b"> b) BOE, 1.0" 3K</label>
+                <label><input type="radio" name="q9" value="c"> c) Sony, 1.3" 4K</label>
+                <label><input type="radio" name="q9" value="d"> d) LGD, 0.7" QHD</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q9', 'c')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 9번 항목: SSE VR 제품에는 Sony가 '23년 공개했던 1.3" 크기의 4K (3,552x3,840) OLEDoS 제품이 탑재될
+                    계획입니다. N사는 초기 물량에는 공급되지 않습니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q10">
+            <div class="question-text"> 10. SS SDI가 매각 협의 중인 중국 무석 공장과 청주 공장의 총 매각 예상 금액은 얼마인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q10" value="a"> a) 5,000억원</label>
+                <label><input type="radio" name="q10" value="b"> b) 7,000억원</label>
+                <label><input type="radio" name="q10" value="c"> c) 1조원</label>
+                <label><input type="radio" name="q10" value="d"> d) 1조 5,000억원</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q10', 'c')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 10번 항목: SDI는 무석 공장(7,000억원)과 청주 공장(3,000억원) 2개를 총 1조원에 매각할 전망입니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q11">
+            <div class="question-text"> 11. N사가 당분간 GA NBPC를 Single 소자 중심으로 운영하게 된 주된 이유로 언급된 Fab은 어디인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q11" value="a"> a) G8.6 A6</label>
+                <label><input type="radio" name="q11" value="b"> b) G6 A3</label>
+                <label><input type="radio" name="q11" value="c"> c) G5.5 A2</label>
+                <label><input type="radio" name="q11" value="d"> d) G6 A4</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q11', 'c')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 1번 항목: N사 G5.5 A2 라인의 증착 제약(Tandem 시 Capa 절반 감소)으로 인해 Single 중심 Biz. 전개로
+                    가닥을 잡았다고 언급됩니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q12">
+            <div class="question-text"> 12. SS SDI 공장 매각 계약 내용에 포함된 고용 승계 조건의 비율은 얼마인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q12" value="a"> a) 50%</label>
+                <label><input type="radio" name="q12" value="b"> b) 60%</label>
+                <label><input type="radio" name="q12" value="c"> c) 70%</label>
+                <label><input type="radio" name="q12" value="d"> d) 80%</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q12', 'c')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 10번 항목: 계약 내용 중 SDI 제조/개발/영업 포함 500명 중 70%의 고용 승계 조건이 있는 것으로 확인됩니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q13">
+            <div class="question-text"> 13. N사의 G8.6 A6 Fab은 어떤 Mask Concept으로 투자되어 OT Capa에 영향을 미쳤나요?</div>
+            <div class="options">
+                <label><input type="radio" name="q13" value="a"> a) SOT 10 Mask</label>
+                <label><input type="radio" name="q13" value="b"> b) SOT 12 Mask</label>
+                <label><input type="radio" name="q13" value="c"> c) SOT 14 Mask</label>
+                <label><input type="radio" name="q13" value="d"> d) SOT 16 Mask</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q13', 'b')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 1번 항목: A6는 SOT 12Mask Concept으로 Tight하게 투자되어 현 수준(14Mask) 감안 시 OT Capa가
+                    10~12K 수준에 그치는 상황이라고 언급됩니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q14">
+            <div class="question-text"> 14. 현재 업계 G6 PO 노광기의 주력 모델(Canon E813H, Nikon FX 68SH)의 해상도 사양은 얼마인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q14" value="a"> a) 1.0um</label>
+                <label><input type="radio" name="q14" value="b"> b) 1.2um</label>
+                <label><input type="radio" name="q14" value="c"> c) 1.5um</label>
+                <label><input type="radio" name="q14" value="d"> d) 2.0um</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q14', 'c')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 2번 항목: 현재 업계 G6 PO 노광기는 해상도 1.5um 사양의 Canon E813H 및 Nikon FX 68SH가 주력 모델이라고
+                    명시되어 있습니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q15">
+            <div class="question-text"> 15. NY가 N사에 다양한 TCO 재료 Test를 요청한 주된 목적은 무엇인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q15" value="a"> a) 즉각적인 양산 모델 적용</label>
+                <label><input type="radio" name="q15" value="b"> b) N사의 TCO 기술력 평가</label>
+                <label><input type="radio" name="q15" value="c"> c) 경쟁사 TCO 기술 견제</label>
+                <label><input type="radio" name="q15" value="d"> d) 장기 기술 로드맵 수립 위한 데이터 확보</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q15', 'd')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 3번 항목: NY는 장기 기술 로드맵 수립을 위한 기초 데이터 확보 목적으로 N사에 다양한 TCO 재료 Test를 요청했다고
+                    설명합니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q16">
+            <div class="question-text"> 16. N사가 '24년 6월 매입한 Orthogonal사의 FMM-less 기술 관련 특허 5건은 주로 어떤 기술과 관련이 있나요?</div>
+            <div class="options">
+                <label><input type="radio" name="q16" value="a"> a) OVJP 노즐 정밀 제어 기술</label>
+                <label><input type="radio" name="q16" value="b"> b) Lift off 기술 (불소계 보호층 적용)</label>
+                <label><input type="radio" name="q16" value="c"> c) LITI 레이저 효율 개선 기술</label>
+                <label><input type="radio" name="q16" value="d"> d) Tandem 구조 수율 향상 기술</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q16', 'b')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 4번 항목: 해당 특허는 OLED 보호를 위해 포토패터닝 공정 전에 불소계 보호층을 적용하는 Lift off 기술 관련 내용이라고
+                    명시되어 있습니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q17">
+            <div class="question-text"> 17. '25년 1분기 N사의 아이폰 출하량(23M)은 전년 동기 대비 어느 정도 변화했나요?</div>
+            <div class="options">
+                <label><input type="radio" name="q17" value="a"> a) 15% 감소</label>
+                <label><input type="radio" name="q17" value="b"> b) 33% 감소</label>
+                <label><input type="radio" name="q17" value="c"> c) 15% 증가</label>
+                <label><input type="radio" name="q17" value="d"> d) 35% 증가</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q17', 'd')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 5번 항목: '25년 1분기 출하량은 23M만대로, 전년 동기(17M대) 대비 35% 증가한 수치라고 설명합니다. (전분기 대비는
+                    33% 감소)</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q18">
+            <div class="question-text"> 18. BOE는 투자 중인 B16 Fab의 초기 Set up을 위해 어느 Fab의 주요 엔지니어를 이동시킬 계획인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q18" value="a"> a) B5</label>
+                <label><input type="radio" name="q18" value="b"> b) B7</label>
+                <label><input type="radio" name="q18" value="c"> c) B11</label>
+                <label><input type="radio" name="q18" value="d"> d) B12</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q18', 'b')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 6번 항목: BOE는 B16과 관련하여 3월 말까지 B7의 주요 Eng'r를 이동 조치하여 초기 Set up과 양산성 구축에
+                    Resource를 집중할 계획임을 언급했습니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q19">
+            <div class="question-text"> 19. BOE는 LGE에 ADS Pro 55"/65" 모델에 대해 연간 어느 정도의 물량 협력을 요청 중인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q19" value="a"> a) 20만대</label>
+                <label><input type="radio" name="q19" value="b"> b) 30만대</label>
+                <label><input type="radio" name="q19" value="c"> c) 50만대</label>
+                <label><input type="radio" name="q19" value="d"> d) 100만대</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q19', 'c')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 8번 항목: BOE는 ADS Pro 55/65" 모델에 대해 7월부터 양산과 연간 50만대 협력을 요청 중이라고 언급되어 있습니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q20">
+            <div class="question-text"> 20. SS SDI가 공장 매각 협의 중 받 P 상태인 가계약금은 얼마인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q20" value="a"> a) 100억원</label>
+                <label><input type="radio" name="q20" value="b"> b) 500억원</label>
+                <label><input type="radio" name="q20" value="c"> c) 1,000억원</label>
+                <label><input type="radio" name="q20" value="d"> d) 3,000억원</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q20', 'c')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 10번 항목: 현재 가계약금 1,000억원을 받은 상태라고 명시되어 있습니다. (무석 7천억, 청주 3천억 매각 협의 중)</div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script>
+        function checkAnswer(questionId, correctAnswer) {
+            const questionBlock = document.getElementById(questionId);
+            const selectedOption = questionBlock.querySelector(`input[name="${questionId}"]:checked`);
+            const feedbackElement = questionBlock.querySelector('.feedback');
+            const resultSpan = feedbackElement.querySelector('.result');
+            const checkButton = questionBlock.querySelector('.check-button');
+            const radioButtons = questionBlock.querySelectorAll(`input[name="${questionId}"]`);
+            const labels = questionBlock.querySelectorAll('.options label'); // Get all labels
+
+            if (!selectedOption) {
+                alert("답변을 선택해주세요!");
+                return;
+            }
+
+            const userAnswer = selectedOption.value;
+
+            // Reset previous label highlights
+            labels.forEach(label => {
+                label.classList.remove('correct-answer-label');
+            });
+
+            if (userAnswer === correctAnswer) {
+                resultSpan.textContent = "정답입니다!";
+                feedbackElement.className = 'feedback correct'; // Reset class and add 'correct'
+                selectedOption.parentElement.classList.add('correct-answer-label'); // Highlight correct selected label
+            } else {
+                resultSpan.textContent = "오답입니다.";
+                feedbackElement.className = 'feedback incorrect'; // Reset class and add 'incorrect'
+                // Highlight the correct answer's label even if wrong answer selected
+                const correctLabel = questionBlock.querySelector(`input[value="${correctAnswer}"]`).parentElement;
+                correctLabel.classList.add('correct-answer-label');
+            }
+
+            feedbackElement.style.display = 'block'; // Show feedback
+            checkButton.disabled = true; // Disable button after checking
+
+            // Disable radio buttons
+            radioButtons.forEach(radio => {
+                radio.disabled = true;
+            });
+        }
+    </script>
+
+</body>
+
+</html>
