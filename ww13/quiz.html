@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> 주간 이슈 동향 퀴즈 (ww13) - 20문항 </title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .quiz-container {
+            background-color: #FFFFFF;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .quiz-header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #0F2C59;
+            /* Navy Blue */
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .question-block {
+            margin-bottom: 25px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+
+        .question-text {
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .options label {
+            display: block;
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .options label:hover {
+            background-color: #f5f5f5;
+        }
+
+        .options input[type="radio"] {
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        .check-button {
+            padding: 8px 15px;
+            background-color: #0F2C59;
+            /* Navy Blue */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+            transition: background-color 0.2s ease;
+        }
+
+        .check-button:hover {
+            background-color: #163d7f;
+            /* Darker Navy Blue */
+        }
+
+        .check-button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .feedback {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            display: none;
+            /* Initially hidden */
+        }
+
+        .feedback.correct {
+            background-color: #e7f4e4;
+            /* Light green */
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .feedback.incorrect {
+            background-color: #f8d7da;
+            /* Light red */
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+
+        .explanation {
+            margin-top: 8px;
+            font-style: italic;
+            color: #555;
+        }
+
+        .correct-answer-label {
+            background-color: #d4edda !important;
+            /* Ensure highlighting overrides hover */
+            border-color: #c3e6cb !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="quiz-container">
+        <div class="quiz-header"> ww13 주간 이슈 동향 복습 퀴즈 (20문항) </div>
+
+        <div class="question-block" id="q1">
+            <div class="question-text"> 1. N사의 D970 O-Gate D/E 개선과 관련하여, 기존 원익 APX 외에 추가로 협력을 고려 중인 업체와 모듈은 무엇인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q1" value="a"> a) TEL / Etch Module</label>
+                <label><input type="radio" name="q1" value="b"> b) LAM Research / Plasma Module</label>
+                <label><input type="radio" name="q1" value="c"> c) ICD / RPA Module</label>
+                <label><input type="radio" name="q1" value="d"> d) AMAT / CVD Module</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q1', 'c')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 1번: 기존 원익의 APX 외에 ICD의 RPA 모듈의 안정성을 높이 평가하여 협력을 고려 중입니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q2">
+            <div class="question-text"> 2. N사 내부에서 원익 APX 모듈을 선호하는 부서와 그 주된 이유는 무엇인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q2" value="a"> a) 품질팀 / 운영 안정성</label>
+                <label><input type="radio" name="q2" value="b"> b) 공정 엔지니어 팀 / 수율 및 공정 효율성</label>
+                <label><input type="radio" name="q2" value="c"> c) 연구소 / 신기술 적용 가능성</label>
+                <label><input type="radio" name="q2" value="d"> d) 구매팀 / 가격 경쟁력</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q2', 'b')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 1번(1): 공정 엔지니어 팀은 APX가 수율에 더 유리하고 공정 효율성이 좋기 때문에 APX를 지지하고 있습니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q3">
+            <div class="question-text"> 3. N사 내부에서 ICD RPA 모듈을 선호하는 부서와 그 주된 이유는 무엇인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q3" value="a"> a) 품질팀 / 검증된 모듈 및 운영 안정성</label>
+                <label><input type="radio" name="q3" value="b"> b) 공정 엔지니어 팀 / 공정 시간 단축</label>
+                <label><input type="radio" name="q3" value="c"> c) 연구소 / 확장성</label>
+                <label><input type="radio" name="q3" value="d"> d) 구매팀 / 유지보수 용이성</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q3', 'a')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 1번(2): 품질팀은 검증된 모듈 사용을 선호하며, RPA 모듈의 운영 안정성과 확보된 데이터에 신뢰를 보이고 있습니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q4">
+            <div class="question-text"> 4. N사의 D970 O-Gate D/E 업체(APX or RPA) 확정 목표 시기는 언제인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q4" value="a"> a) 2025년 4월</label>
+                <label><input type="radio" name="q4" value="b"> b) 2025년 5월</label>
+                <label><input type="radio" name="q4" value="c"> c) 2025년 6월</label>
+                <label><input type="radio" name="q4" value="d"> d) 2025년 7월</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q4', 'b')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 1번(3): 최종 평가를 5월까지 진행하여 APX 또는 RPA 모듈 적용 여부를 결정할 예정입니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q5">
+            <div class="question-text"> 5. N사가 NY향으로 개발을 확정한 GVR(Glass VR)의 목표 ppi는 얼마인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q5" value="a"> a) 1,000 ppi</label>
+                <label><input type="radio" name="q5" value="b"> b) 1,200 ppi</label>
+                <label><input type="radio" name="q5" value="c"> c) 1,500 ppi</label>
+                <label><input type="radio" name="q5" value="d"> d) 2,000 ppi</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q5', 'c')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 2번: N사는 NY향 1,500ppi GVR 개발을 확정하고 본격적인 Resource를 투입할 계획입니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q6">
+            <div class="question-text"> 6. N사의 NY GVR 개발을 전담하게 될 신설 조직의 이름은 무엇인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q6" value="a"> a) VR 연구소</label>
+                <label><input type="radio" name="q6" value="b"> b) 차세대 디스플레이팀</label>
+                <label><input type="radio" name="q6" value="c"> c) A사업팀 산하 GVR Task</label>
+                <label><input type="radio" name="q6" value="d"> d) NY 전담 개발실</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q6', 'c')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 2번: 연구소에서 진행되던 GVR 개발은 앞으로 A 사업팀 산하 신설된 GVR Task에서 전담할 전망입니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q7">
+            <div class="question-text"> 7. N사가 현실적으로 판단하고 있는 NY GVR의 양산(MP) 목표 시점은 언제인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q7" value="a"> a) 2026년</label>
+                <label><input type="radio" name="q7" value="b"> b) 2027년</label>
+                <label><input type="radio" name="q7" value="c"> c) 2028년</label>
+                <label><input type="radio" name="q7" value="d"> d) 2029년</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q7', 'b')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 2번: NY는 '26년 양산을 언급했으나 N사는 현실적으로 어렵다고 판단하고 있으며, '27년 MP Target으로 개발을 진행할
+                    계획입니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q8">
+            <div class="question-text"> 8. N사의 MPO(eLEAP) 기술 개발과 관련하여, AMAT 증착기 반입이 지연될 수 있는 주된 이유는 무엇인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q8" value="a"> a) 장비 성능 미달</label>
+                <label><input type="radio" name="q8" value="b"> b) 계약 조건 변경</label>
+                <label><input type="radio" name="q8" value="c"> c) MPO에 많은 Resource를 쏟기 어려움</label>
+                <label><input type="radio" name="q8" value="d"> d) 설치 공간 부족</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q8', 'c')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 3번: 현재 MPO에 많은 Resource를 쏟기 어렵다는 것이 반입 지연 가능성의 이유로 언급됩니다. 반입 시 지속적인 개발과 피드백
+                    의무가 발생하기 때문입니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q9">
+            <div class="question-text"> 9. 현재 N사에서 MPO 기술을 검토 중인 담당 부서는 어디인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q9" value="a"> a) 연구소 선행개발팀</label>
+                <label><input type="radio" name="q9" value="b"> b) 중소형개발실 공정개발팀</label>
+                <label><input type="radio" name="q9" value="c"> c) 대형개발실 양산기술팀</label>
+                <label><input type="radio" name="q9" value="d"> d) A사업팀 GVR Task</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q9', 'b')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 3번: 현재 MPO 기술은 중소형개발실 산하 공정개발팀(강태욱 상무)에서 검토 중이며, 아직 본격적인 개발은 시작되지 않았다고
+                    판단됩니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q10">
+            <div class="question-text"> 10. 최근 별세한 故 한종희 부회장이 맡았던 직책이 <u>아닌</u> 것은 무엇인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q10" value="a"> a) DX 부문장</label>
+                <label><input type="radio" name="q10" value="b"> b) DA 사업부장</label>
+                <label><input type="radio" name="q10" value="c"> c) 품질혁신위원회 위원장</label>
+                <label><input type="radio" name="q10" value="d"> d) MX 사업부장</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q10', 'd')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 4번: 故 한 부회장은 DX 부문장, DA 사업부장, 품질혁신위원회 위원장까지 1인 3역을 맡았다고 언급됩니다. MX 사업부장은 노태문
+                    사장입니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q11">
+            <div class="question-text"> 11. BOE가 G8.6 B16 Fab의 최초 양산을 시작할 계획인 시점은 언제인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q11" value="a"> a) 2025년 10월</label>
+                <label><input type="radio" name="q11" value="b"> b) 2026년 1월</label>
+                <label><input type="radio" name="q11" value="c"> c) 2026년 4월</label>
+                <label><input type="radio" name="q11" value="d"> d) 2026년 7월</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q11', 'c')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 5번: BOE는 노광기 등을 5월부터 입고하여 '26년 4월에는 G8.6의 최초 양산을 시작할 계획입니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q12">
+            <div class="question-text"> 12. BOE G8.6 B16 Ph1(15K) 라인에서 초기에 생산될 제품의 소자 기술과 주요 제품군은 무엇인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q12" value="a"> a) LTPO 기반 / 스마트폰(고급형) + NBPC</label>
+                <label><input type="radio" name="q12" value="b"> b) LTPS 기반 / 스마트폰(중급형) + NBPC</label>
+                <label><input type="radio" name="q12" value="c"> c) Oxide 기반 / NBPC + Tablet</label>
+                <label><input type="radio" name="q12" value="d"> d) LTPO 기반 / NBPC + Tablet</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q12', 'b')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 5번: 현재 개발 중인 모델은 모두 LTPS이며, 제품군은 스마트폰(7.5K, 샤오미 Redmi Note Pro 등)과
+                    NBPC(7.5K, 14" WQ)로 분리 운영될 전망입니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q13">
+            <div class="question-text"> 13. Visionox의 G8.6 V5 프로젝트 일정이 지연될 가능성이 생긴 주된 이유는 무엇인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q13" value="a"> a) 기술 개발 난항</label>
+                <label><input type="radio" name="q13" value="b"> b) 장비 수급 문제</label>
+                <label><input type="radio" name="q13" value="c"> c) 허페이 시정부 공무원 비리</label>
+                <label><input type="radio" name="q13" value="d"> d) 자금 조달 어려움</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q13', 'c')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 6번: 최근 허페이 시정부 공무원의 비리가 확인되면서 PJT 일정이 지연될 전망입니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q14">
+            <div class="question-text"> 14. Visionox G8.6 V5의 투자 Capa는 기존 계획 대비 어느 수준으로 축소될 것으로 예상되나요?</div>
+            <div class="options">
+                <label><input type="radio" name="q14" value="a"> a) 15K</label>
+                <label><input type="radio" name="q14" value="b"> b) 10K</label>
+                <label><input type="radio" name="q14" value="c"> c) 7.5K</label>
+                <label><input type="radio" name="q14" value="d"> d) 5K</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q14', 'c')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 6번: 일정 지연과 함께 Capa도 7.5K만 투자될 것으로 예상됩니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q15">
+            <div class="question-text"> 15. CSOT 경영진이 G8.6 T8 투자를 원점에서 재검토하기로 한 주된 이유는 무엇인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q15" value="a"> a) 기술력 부족</label>
+                <label><input type="radio" name="q15" value="b"> b) 경쟁사 견제 심화</label>
+                <label><input type="radio" name="q15" value="c"> c) 수요 없는 과잉 투자 우려</label>
+                <label><input type="radio" name="q15" value="d"> d) 정부 지원 축소</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q15', 'c')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 7번: CSOT 경영진은 현재의 G8.6 투자를 수요 없는 과잉 상태라 판단하고 있어 결정을 서두르지 않고 재검토할 계획입니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q16">
+            <div class="question-text"> 16. CSOT가 G8.6 T8 투자를 최종 결정하기 전에 중요하게 참고할 G5.5 IJP 라인의 개발/양산 대상 제품은 무엇인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q16" value="a"> a) 21.6" 메디컬 제품</label>
+                <label><input type="radio" name="q16" value="b"> b) Dell 16" / HP 14" NBPC</label>
+                <label><input type="radio" name="q16" value="c"> c) Foldable 스마트폰</label>
+                <label><input type="radio" name="q16" value="d"> d) Automotive 디스플레이</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q16', 'b')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 7번: 올해 3분기 개발/양산 추진 중인 Dell 16" / HP 14" IJP NBPC의 양산성/수율 결과가 G8.6 투자를 결정하는
+                    큰 의사결정 포인트가 될 것이라고 언급됩니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q17">
+            <div class="question-text"> 17. SSE MX가 올해 반드시 양산을 추진하기로 한 Foldable 제품의 개발 기조 변화에 영향을 준 사건은 무엇인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q17" value="a"> a) N사의 선제적 제안</label>
+                <label><input type="radio" name="q17" value="b"> b) Apple의 폴더블 진입설</label>
+                <label><input type="radio" name="q17" value="c"> c) 화웨이의 트리폴드 출시</label>
+                <label><input type="radio" name="q17" value="d"> d) 내부 개발 성공</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q17', 'c')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 8번: 작년 화웨이의 트리폴드 출시 이후 MX 경영진의 내부 기조가 바뀌며 현재는 빠른 개발을 요청하고 있는 상황입니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q18">
+            <div class="question-text"> 18. SSE MX가 연내 출시 목표인 트리폴드 제품의 예상 주 화면 크기와 ppi는 얼마인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q18" value="a"> a) 7.6” / 374ppi</label>
+                <label><input type="radio" name="q18" value="b"> b) 8.0” / 360ppi</label>
+                <label><input type="radio" name="q18" value="c"> c) 9.96” / 268ppi</label>
+                <label><input type="radio" name="q18" value="d"> d) 10.5” / 250ppi</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q18', 'c')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 8번: 제품 Spec은 9.96” 에 268ppi로 예상됩니다. (외부 디스플레이 미정)</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q19">
+            <div class="question-text"> 19. BOE 천옌순 회장이 5월 7일 한국 방문 시 LGE와의 TMM에서 중점적으로 논의할 것으로 예상되는 안건은 무엇인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q19" value="a"> a) WOLED 패널 공급 협의</label>
+                <label><input type="radio" name="q19" value="b"> b) ADS Pro 제품 도입 관련 논의</label>
+                <label><input type="radio" name="q19" value="c"> c) LTPO 기술 협력 방안</label>
+                <label><input type="radio" name="q19" value="d"> d) 합작 투자(JV) 설립 논의</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q19', 'b')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 9번: 협의 중인 ADS Pro 제품 도입 관련 논의가 TMM의 중점 Agenda가 될 것으로 예상됩니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q20">
+            <div class="question-text"> 20. BOE가 ICDT 2025에서 전시한 스마트폰 패널 중, Dual Stack Tandem OLED 아키텍처 기반으로 소개된 기술/제품
+                이름은 무엇인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q20" value="a"> a) ADS Pro</label>
+                <label><input type="radio" name="q20" value="b"> b) α-MLED</label>
+                <label><input type="radio" name="q20" value="c"> c) f-OLED</label>
+                <label><input type="radio" name="q20" value="d"> d) ViP</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q20', 'c')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 10번(2): f-OLED는 Dual Stack Tandem OLED 아키텍쳐 기반으로 Honor S/P에 적용된 패널로
+                    소개되었습니다.</div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function checkAnswer(questionId, correctAnswer) {
+            const questionBlock = document.getElementById(questionId);
+            const selectedOption = questionBlock.querySelector(`input[name="${questionId}"]:checked`);
+            const feedbackElement = questionBlock.querySelector('.feedback');
+            const resultSpan = feedbackElement.querySelector('.result');
+            const checkButton = questionBlock.querySelector('.check-button');
+            const radioButtons = questionBlock.querySelectorAll(`input[name="${questionId}"]`);
+            const labels = questionBlock.querySelectorAll('.options label'); // Get all labels
+
+            if (!selectedOption) {
+                alert("답변을 선택해주세요!");
+                return;
+            }
+
+            const userAnswer = selectedOption.value;
+
+            // Reset previous label highlights
+            labels.forEach(label => {
+                label.classList.remove('correct-answer-label');
+            });
+
+            if (userAnswer === correctAnswer) {
+                resultSpan.textContent = "정답입니다!";
+                feedbackElement.className = 'feedback correct'; // Reset class and add 'correct'
+                selectedOption.parentElement.classList.add('correct-answer-label'); // Highlight correct selected label
+            } else {
+                resultSpan.textContent = "오답입니다.";
+                feedbackElement.className = 'feedback incorrect'; // Reset class and add 'incorrect'
+                // Highlight the correct answer's label even if wrong answer selected
+                const correctLabel = questionBlock.querySelector(`input[value="${correctAnswer}"]`).parentElement;
+                correctLabel.classList.add('correct-answer-label');
+            }
+
+            feedbackElement.style.display = 'block'; // Show feedback
+            checkButton.disabled = true; // Disable button after checking
+
+            // Disable radio buttons
+            radioButtons.forEach(radio => {
+                radio.disabled = true;
+            });
+        }
+    </script>
+
+</body>
+
+</html>
