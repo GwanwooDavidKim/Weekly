@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ww13 주간 이슈 동향 대시보드 (McKinsey Style)</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #F5F5F5;
+            /* Silver Gray */
+            margin: 0;
+            padding: 20px;
+        }
+
+        .dashboard-container {
+            background-color: #FFFFFF;
+            /* White */
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .header {
+            border-bottom: 2px solid #0F2C59;
+            /* Navy Blue */
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            color: #0F2C59;
+            /* Navy Blue */
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .header .meta {
+            font-size: 14px;
+            color: #555;
+            text-align: right;
+        }
+
+        .tab-container {
+            display: flex;
+            border-bottom: 1px solid #ccc;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            /* Allow tabs to wrap */
+        }
+
+        .tab-button {
+            padding: 10px 15px;
+            /* Adjust padding */
+            cursor: pointer;
+            border: none;
+            background-color: transparent;
+            font-size: 15px;
+            /* Adjust font size */
+            margin-right: 5px;
+            border-bottom: 3px solid transparent;
+            transition: border-bottom 0.3s ease, color 0.3s ease;
+            color: #555;
+            white-space: nowrap;
+            /* Prevent button text wrapping */
+        }
+
+        .tab-button.active {
+            border-bottom: 3px solid #0F2C59;
+            /* Navy Blue */
+            font-weight: bold;
+            color: #0F2C59;
+            /* Navy Blue */
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        h2 {
+            color: #0F2C59;
+            /* Navy Blue */
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        h3 {
+            color: #333;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .kpi-card-container {
+            display: grid;
+            /* Use grid for better alignment */
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            /* Responsive grid */
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .kpi-card {
+            background-color: #F5F5F5;
+            /* Silver Gray */
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+        }
+
+        .kpi-card.dev {
+            background-color: #e3f2fd;
+            border-color: #bbdefb;
+        }
+
+        /* Light blue for development */
+        .kpi-card.plan {
+            background-color: #fff9c4;
+            border-color: #fff176;
+        }
+
+        /* Light yellow for plans */
+        .kpi-card.event {
+            background-color: #fce4ec;
+            border-color: #f8bbd0;
+        }
+
+        /* Light pink for events/personnel */
+        .kpi-card.tech {
+            background-color: #e8f5e9;
+            border-color: #c8e6c9;
+        }
+
+        /* Light green for technology */
+
+
+        .kpi-card .value {
+            font-size: 20px;
+            font-weight: bold;
+            color: #0F2C59;
+            /* Navy Blue */
+        }
+
+        .kpi-card .label {
+            font-size: 13px;
+            color: #555;
+            margin-top: 5px;
+        }
+
+        ul {
+            padding-left: 0;
+            /* Remove default padding */
+            list-style: none;
+            /* Remove default bullets */
+        }
+
+        ul ul {
+            padding-left: 20px;
+        }
+
+        /* Indent nested lists */
+
+
+        li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 15px;
+            /* Space for custom bullet */
+        }
+
+        li::before {
+            content: '■';
+            /* Use square bullet */
+            position: absolute;
+            left: 0;
+            top: 0px;
+            /* Adjust vertical alignment */
+            color: #0F2C59;
+            /* Navy Blue */
+            font-size: 10px;
+            /* Adjust bullet size */
+        }
+
+        ul ul li::before {
+            content: '●';
+            font-size: 8px;
+        }
+
+        /* Circle for nested lists */
+        ul ul ul li::before {
+            content: '-';
+            font-size: 12px;
+        }
+
+        /* Dash for third level */
+
+
+        strong,
+        .highlight {
+            color: #0F2C59;
+            /* Navy Blue */
+            font-weight: 600;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 14px;
+            table-layout: fixed;
+            /* Fixed layout */
+            word-wrap: break-word;
+            /* Allow long words to break */
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px 10px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background-color: #EAEFF5;
+            /* Light blue-gray */
+            color: #0F2C59;
+            /* Navy Blue */
+            font-weight: bold;
+        }
+
+        td:first-child {
+            font-weight: bold;
+        }
+
+        /* Bold first column */
+
+        .roadmap-item {
+            border-left: 3px solid #0F2C59;
+            /* Navy Blue */
+            padding-left: 15px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .roadmap-item::before {
+            content: '';
+            position: absolute;
+            left: -8px;
+            /* Adjusted for thicker line */
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            background-color: #FFFFFF;
+            /* White */
+            border: 2px solid #0F2C59;
+            /* Navy Blue */
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .roadmap-date {
+            font-weight: bold;
+            color: #0F2C59;
+            /* Navy Blue */
+            margin-bottom: 5px;
+        }
+
+        .footer {
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid #ccc;
+            font-size: 12px;
+            color: #777;
+            text-align: right;
+        }
+
+        /* Minimal CSS */
+        body,
+        h1,
+        h2,
+        h3,
+        p,
+        ul,
+        li,
+        table,
+        th,
+        td,
+        button {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-size: 100%;
+            font: inherit;
+            vertical-align: baseline;
+            box-sizing: border-box;
+        }
+
+        body {
+            padding: 20px;
+            background-color: #F5F5F5;
+            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+            line-height: 1.6;
+        }
+
+        .dashboard-container {
+            padding: 25px;
+            background-color: #FFFFFF;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .header {
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #0F2C59;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .tab-container {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ccc;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .tab-button {
+            padding: 10px 15px;
+            background: none;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            font-size: 15px;
+            margin-right: 5px;
+            white-space: nowrap;
+            color: #555;
+        }
+
+        .tab-button.active {
+            border-bottom: 3px solid #0F2C59;
+            font-weight: bold;
+            color: #0F2C59;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        h2 {
+            padding-bottom: 8px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            font-size: 18px;
+            font-weight: 600;
+            color: #0F2C59;
+        }
+
+        h3 {
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        ul ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 15px;
+        }
+
+        li::before {
+            content: '■';
+            position: absolute;
+            left: 0;
+            top: 0px;
+            color: #0F2C59;
+            font-size: 10px;
+        }
+
+        ul ul li::before {
+            content: '●';
+            font-size: 8px;
+        }
+
+        ul ul ul li::before {
+            content: '-';
+            font-size: 12px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            table-layout: fixed;
+            word-wrap: break-word;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px 10px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background-color: #EAEFF5;
+            font-weight: bold;
+            color: #0F2C59;
+        }
+
+        .kpi-card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .kpi-card {
+            background-color: #F5F5F5;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+        }
+
+        .kpi-card.dev {
+            background-color: #e3f2fd;
+            border-color: #bbdefb;
+        }
+
+        .kpi-card.plan {
+            background-color: #fff9c4;
+            border-color: #fff176;
+        }
+
+        .kpi-card.event {
+            background-color: #fce4ec;
+            border-color: #f8bbd0;
+        }
+
+        .kpi-card.tech {
+            background-color: #e8f5e9;
+            border-color: #c8e6c9;
+        }
+
+        .kpi-card .value {
+            font-size: 20px;
+            font-weight: bold;
+            color: #0F2C59;
+        }
+
+        .kpi-card .label {
+            font-size: 13px;
+            color: #555;
+            margin-top: 5px;
+        }
+
+        .roadmap-item {
+            border-left: 3px solid #0F2C59;
+            padding-left: 15px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .roadmap-item::before {
+            content: '';
+            position: absolute;
+            left: -8px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            background-color: #FFFFFF;
+            border: 2px solid #0F2C59;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .roadmap-date {
+            font-weight: bold;
+            color: #0F2C59;
+            margin-bottom: 5px;
+        }
+
+        .footer {
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid #ccc;
+            font-size: 12px;
+            color: #777;
+            text-align: right;
+        }
+
+        @media (max-width: 992px) {
+            .tab-button {
+                font-size: 14px;
+                padding: 8px 10px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .header .meta {
+                text-align: left;
+                margin-top: 5px;
+            }
+
+            .tab-container {
+                flex-direction: column;
+            }
+
+            .tab-button {
+                text-align: left;
+                width: 100%;
+                border-bottom: 1px solid #eee;
+                margin-right: 0;
+            }
+
+            .tab-button.active {
+                border-bottom: 1px solid #eee;
+                border-left: 3px solid #0F2C59;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="dashboard-container">
+        <div class="header">
+            <h1>ww13 주간 이슈 동향</h1>
+            <div class="meta">
+                기준: 2025년 4월 2주차 (ISO 8601)<br>
+                출처: MCI 팀
+            </div>
+        </div>
+
+        <div class="tab-container">
+            <button class="tab-button active" onclick="openTab(event, 'nCompany')">N사 동향</button>
+            <button class="tab-button" onclick="openTab(event, 'chinaG86')">중국 G8.6 동향</button>
+            <button class="tab-button" onclick="openTab(event, 'boe')">BOE 동향</button>
+            <button class="tab-button" onclick="openTab(event, 'sse')">SSE 동향</button>
+            <button class="tab-button" onclick="openTab(event, 'roadmap')">주요 일정/전망</button>
+        </div>
+
+        <div id="nCompany" class="tab-content active">
+            <h2>N사 D970 O-Gate D/E 개선 현황</h2>
+            <ul>
+                <li><strong>업체 선정 경쟁:</strong> 기존 원익 APX vs 신규 ICD RPA 협력 고려 중.
+                    <ul>
+                        <li><strong>원익 APX:</strong> 공정팀 선호 (수율/효율성 유리, 후공정 불필요). 단점: 신규 장비로 안정성 Data 부족.</li>
+                        <li><strong>ICD RPA:</strong> 품질팀 선호 (검증된 모듈, 운영 안정성, Data 확보). 단점: APX 대비 공정 단계 추가 가능성.</li>
+                    </ul>
+                </li>
+                <li><strong>평가 항목 (APX):</strong> Gas 분사량/플라즈마 Data, 후공정 생략 시 결과값 등 Data 확보 중.</li>
+                <li><strong>업체 확정 시기:</strong> <span class="highlight">'25년 5월까지</span> 최종 평가 후 결정 예정.</li>
+                <li><strong>O-Gate D/E 조건:</strong> ME1 (Cl2/BCl3, ~240s), ME2 (Cl2/BCl3/N2, ~20-80s).</li>
+            </ul>
+
+            <h2>N사 NY GVR 개발 동향</h2>
+            <div class="kpi-card-container">
+                <div class="kpi-card dev">
+                    <div class="value">1,500 ppi</div>
+                    <div class="label">개발 목표 Spec</div>
+                </div>
+                <div class="kpi-card dev">
+                    <div class="value">GVR Task</div>
+                    <div class="label">전담 조직 (A사업팀 산하)</div>
+                </div>
+                <div class="kpi-card plan">
+                    <div class="value">'27년 MP</div>
+                    <div class="label">N사 목표 (NY '26년 언급)</div>
+                </div>
+            </div>
+            <ul>
+                <li><strong>개발 확정:</strong> NY향 GVR 개발 확정, 본격 Resource 투입 계획.</li>
+                <li><strong>개발 주체:</strong> 연구소 → <span class="highlight">A사업팀 산하 GVR Task</span>로 이관.</li>
+            </ul>
+
+            <h2>N사 MPO(eLEAP) 기술 개발 동향</h2>
+            <ul>
+                <li><strong>AMAT 증착기 반입 지연 가능성:</strong> '25년 8월 계획 → <span class="highlight">지연 가능성 제기</span> (Resource
+                    투입 어려움).
+                    <ul>
+                        <li>(조건부 PO 무상 반입이나, 반입 시 개발 진행 및 피드백 의무 발생 부담)</li>
+                    </ul>
+                </li>
+                <li><strong>개발 현황:</strong> 중소형개발실 산하 공정개발팀(강태욱 상무) 검토 중 <span class="highlight">(아직 본격 개발 단계
+                        아님)</span>.</li>
+                <li><strong>AMAT 입장:</strong> 증착+CVD 세트 프로모션, 반입 시 절반 성공 간주.</li>
+            </ul>
+        </div>
+
+        <div id="chinaG86" class="tab-content">
+            <h2>BOE G8.6 B16 준비 동향</h2>
+            <div class="kpi-card-container">
+                <div class="kpi-card plan">
+                    <div class="value">'26.04</div>
+                    <div class="label">최초 양산 목표 (Ph1)</div>
+                </div>
+                <div class="kpi-card plan">
+                    <div class="value">15K (Ph1)</div>
+                    <div class="label">투자 Capa</div>
+                </div>
+                <div class="kpi-card plan">
+                    <div class="value">7.5K / 7.5K</div>
+                    <div class="label">S/P / NBPC 분리 운영</div>
+                </div>
+                <div class="kpi-card plan">
+                    <div class="value">'27.Q1</div>
+                    <div class="label">Ph2(15K) 반입 목표 (조기투자)</div>
+                </div>
+            </div>
+            <ul>
+                <li><strong>장비 입고:</strong> 선익 1st 증착기(2월 완료) / 노광기 <span class="highlight">'25.05월부터</span> 입고 예정.</li>
+                <li><strong>Phase 1 (15K) 계획:</strong> PO/ATO 생산 가능, LTPS 기반, SP(샤오미 Redmi Note Pro 등)/NBPC(14" WQ) 생산.
+                    LTPO는 준비 병행.</li>
+                <li><strong>LTPO Module Line:</strong> 現 4개 + 추가 3~4개 검토 (B7 내 셋업 고려).</li>
+                <li><strong>Phase 2 (15K) 조기 투자 검토:</strong> '25.12월 업체 선정 시작 목표.</li>
+            </ul>
+
+            <h2>Visionox G8.6 V5 준비 동향</h2>
+            <div class="kpi-card-container">
+                <div class="kpi-card plan">
+                    <div class="value">지연 전망</div>
+                    <div class="label">PJT 일정 (공무원 비리)</div>
+                </div>
+                <div class="kpi-card plan">
+                    <div class="value">'25.05 이후</div>
+                    <div class="label">본격 발주 시점 (1달+ 지연)</div>
+                </div>
+                <div class="kpi-card plan">
+                    <div class="value">7.5K</div>
+                    <div class="label">예상 투자 Capa (축소)</div>
+                </div>
+                <div class="kpi-card plan">
+                    <div class="value">'27.Q4</div>
+                    <div class="label">양산 목표</div>
+                </div>
+            </div>
+            <ul>
+                <li><strong>건설 시작:</strong> '25.02월.</li>
+                <li><strong>주요 일정:</strong> '27.Q1 점등 목표.</li>
+                <li><strong>추진 방향:</strong> BOE 벤치마킹 (장비, 초기 양산 모델 등).</li>
+                <li><strong>ViP 개발 동향:</strong> SP 적용 Drop, Dell NBPC 프로모션 중 (Sample 미제공), G6 수율 20% 미만, 완제품 내구성 의문.
+                </li>
+            </ul>
+
+            <h2>CSOT G8.6 T8 준비 동향</h2>
+            <ul>
+                <li><strong>투자 전략:</strong> <span class="highlight">원점 재검토</span> (수요 없는 과잉 상태 판단).</li>
+                <li><strong>결정 시점:</strong> '25년 말까지 시장 상황 및 <span class="highlight">G5.5 IJP 결과 관망</span> 후 확정.</li>
+                <li><strong>G5.5 IJP (T4) 현황:</strong>
+                    <ul>
+                        <li>21.6" 메디컬 양산 중 (수율 < 50%, 가격> 800$).</li>
+                        <li>'25.Q3 Dell 16"/HP 14" NBPC 개발/양산 추진 → <span class="highlight">결과가 T8 투자 결정 Point</span>.
+                        </li>
+                    </ul>
+                </li>
+                <li><strong>기존 일정 (진행 시):</strong> '25.Q4 발표 → '26.Q2 발주 → '28.Q4 MP.</li>
+            </ul>
+        </div>
+
+        <div id="boe" class="tab-content">
+            <h2>BOE 천옌순 회장 한국 방문 계획</h2>
+            <div class="kpi-card-container">
+                <div class="kpi-card event">
+                    <div class="value">5월 7일</div>
+                    <div class="label">방한 예정일</div>
+                </div>
+                <div class="kpi-card event">
+                    <div class="value">LGE</div>
+                    <div class="label">주요 TMM 대상</div>
+                </div>
+                <div class="kpi-card tech">
+                    <div class="value">ADS Pro</div>
+                    <div class="label">중점 논의 Agenda</div>
+                </div>
+                <div class="kpi-card plan">
+                    <div class="value">50만대/年</div>
+                    <div class="label">ADS Pro 공급 요청량</div>
+                </div>
+            </div>
+            <ul>
+                <li><strong>주요 논의 내용:</strong> ADS Pro 도입 (55/65" 7월 양산), '25년 전체 물량(10M대) 협의, 대형 Inch 전략적 협력 강화 등.</li>
+            </ul>
+
+            <h2>BOE ICDT 2025 전시 내용 (3/22~25, 샤먼)</h2>
+            <ul>
+                <li><strong>주요 전시 기술:</strong>
+                    <ul>
+                        <li><span class="highlight">ADS Pro (TV):</span> IPS 유사 기술 + LR/STW/AG 적용, 고화질 강조 (동적명암비 100만:1,
+                            광시야각, 저반사).</li>
+                        <li><span class="highlight">f-OLED (SP):</span> Dual Stack Tandem 기반 (Honor 적용), 고휘도(5K
+                            nit)/수명(6배) 향상, UDC 적용 (Nubia Z70, 95.3% SBR).</li>
+                        <li><span class="highlight">α-MLED (MNT/Auto):</span> 유리기판 mini-LED 기반 (27" 게이밍 MNT, 44.8" 스마트
+                            콕핏 - Oxide, 9K, 90Hz).</li>
+                    </ul>
+                </li>
+                <li><strong>발표 전략:</strong> AI+ (제조/제품/운영), 스크린 IoT, Green+ Tech (친환경).</li>
+            </ul>
+            <h2>BOE G8.6 B16 준비 동향 요약</h2>
+            <ul>
+                <li>'26.04 양산 목표, Ph1(15K) SP/NBPC 분리 운영.</li>
+                <li>LTPS 기반, 샤오미/14" WQ 등 생산 예정.</li>
+                <li>Ph2(15K) 조기 투자 검토 ('27.Q1 반입 목표).</li>
+            </ul>
+        </div>
+
+        <div id="sse" class="tab-content">
+            <h2>SSE 인사 동향</h2>
+            <div class="kpi-card-container">
+                <div class="kpi-card event">
+                    <div class="value">한종희 부회장 별세</div>
+                    <div class="label">주요 변동 사항</div>
+                </div>
+                <div class="kpi-card event">
+                    <div class="value">전영현 단독 대표</div>
+                    <div class="label">現 대표 체제</div>
+                </div>
+                <div class="kpi-card event">
+                    <div class="value">노태문 MX 사업부장</div>
+                    <div class="label">품질혁신위원장 유력</div>
+                </div>
+                <div class="kpi-card event">
+                    <div class="value">미정</div>
+                    <div class="label">DX부문장/DA사업부장 후임</div>
+                </div>
+            </div>
+            <ul>
+                <li>故 한종희 부회장, DX 부문장/DA 사업부장/품질혁신위원장 겸임 → 경영 공백 불가피.</li>
+                <li>내부 분위기 어수선, 후임자 미정 상태.</li>
+                <li>가전 신제품 발표회('25.03.28)는 문종승 DA 개발팀장 주관 진행.</li>
+                <li>품질혁신위원회 보고('25.03.31)는 노태문 MX 사업부장/CFO 대면 보고 예정 (1주 순연).</li>
+            </ul>
+
+            <h2>SSE MX 트리폴드 개발 동향</h2>
+            <div class="kpi-card-container">
+                <div class="kpi-card plan">
+                    <div class="value">양산 추진</div>
+                    <div class="label">올해 계획 (Rollable X)</div>
+                </div>
+                <div class="kpi-card dev">
+                    <div class="value">N사 제안 형태</div>
+                    <div class="label">채택 컨셉</div>
+                </div>
+                <div class="kpi-card tech">
+                    <div class="value">9.96" / 268ppi</div>
+                    <div class="label">예상 Spec (주화면)</div>
+                </div>
+                <div class="kpi-card tech">
+                    <div class="value">미정</div>
+                    <div class="label">외부 디스플레이 Spec</div>
+                </div>
+            </div>
+            <ul>
+                <li><strong>개발 배경:</strong> 화웨이 트리폴드 출시 후 MX 경영진 내부 기조 변화 → 빠른 개발 요청.</li>
+                <li><strong>개발 방향:</strong> 연내 출시 위해 <span class="highlight">새 기술 적용보다 과거 N사 제안 형태</span>로 출시 전망 (개발 시간
+                    부족).</li>
+            </ul>
+        </div>
+
+        <div id="roadmap" class="tab-content">
+            <h2>주요 일정/전망 로드맵</h2>
+            <div class="roadmap-item">
+                <div class="roadmap-date">'25.03.28</div>
+                <div>SSE: 가전 신제품 발표회 진행 (문종승 팀장 주관)</div>
+            </div>
+            <div class="roadmap-item">
+                <div class="roadmap-date">'25.03.31</div>
+                <div>SSE: 품질혁신위원회 보고 (노태문 부장/CFO)</div>
+            </div>
+            <div class="roadmap-item">
+                <div class="roadmap-date">'25.05</div>
+                <div>N사: D970 O-Gate D/E 업체 최종 결정 (예정)</div>
+                <div>BOE: G8.6 B16 노광기 입고 시작 (예정)</div>
+            </div>
+            <div class="roadmap-item">
+                <div class="roadmap-date">'25.05.07</div>
+                <div>BOE: 천옌순 회장 방한, LGE와 TMM 진행 (계획)</div>
+            </div>
+            <div class="roadmap-item">
+                <div class="roadmap-date">'25.05 이후</div>
+                <div>Visionox: G8.6 V5 본격 장비 발주 시작 (예정)</div>
+            </div>
+            <div class="roadmap-item">
+                <div class="roadmap-date">'25.08 (또는 지연)</div>
+                <div>N사: AMAT MPO 증착기 반입 (계획)</div>
+            </div>
+            <div class="roadmap-item">
+                <div class="roadmap-date">'25.Q3</div>
+                <div>CSOT: Dell 16"/HP 14" IJP NBPC 개발/양산 추진</div>
+            </div>
+            <div class="roadmap-item">
+                <div class="roadmap-date">'25년 말</div>
+                <div>CSOT: G8.6 T8 투자 최종 결정 (계획)</div>
+            </div>
+            <div class="roadmap-item">
+                <div class="roadmap-date">'25.12</div>
+                <div>BOE: G8.6 B16 Ph2 설비 업체 선정 시작 (목표)</div>
+            </div>
+            <div class="roadmap-item">
+                <div class="roadmap-date">'25년 내</div>
+                <div>SSE MX: 트리폴드 제품 출시 추진</div>
+            </div>
+            <div class="roadmap-item">
+                <div class="roadmap-date">'26.04</div>
+                <div>BOE: G8.6 B16 최초 양산 시작 (계획)</div>
+            </div>
+            <div class="roadmap-item">
+                <div class="roadmap-date">'27.Q1</div>
+                <div>BOE: G8.6 B16 Ph2 장비 반입 (목표)</div>
+                <div>Visionox: G8.6 V5 점등 (목표)</div>
+            </div>
+            <div class="roadmap-item">
+                <div class="roadmap-date">'27년 MP</div>
+                <div>N사: NY향 GVR 양산 목표</div>
+            </div>
+            <div class="roadmap-item">
+                <div class="roadmap-date">'27.Q4</div>
+                <div>Visionox: G8.6 V5 양산 (목표)</div>
+            </div>
+            <div class="roadmap-item">
+                <div class="roadmap-date">'28.Q4</div>
+                <div>CSOT: G8.6 T8 MP (기존 일정 기준)</div>
+            </div>
+        </div>
+
+
+        <div class="footer">
+            출처: MCI 팀
+        </div>
+    </div>
+
+    <script>
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+                tabcontent[i].classList.remove("active");
+            }
+            tablinks = document.getElementsByClassName("tab-button");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+            document.getElementById(tabName).style.display = "block";
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+
+        // Activate the first tab by default
+        document.addEventListener("DOMContentLoaded", function () {
+            var firstTabButton = document.querySelector(".tab-button");
+            if (firstTabButton) {
+                firstTabButton.click();
+            }
+        });
+    </script>
+
+</body>
+
+</html>
