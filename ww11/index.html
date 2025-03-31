@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ww11 주간 이슈 동향 대시보드 (McKinsey Style)</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #F5F5F5;
+            /* Silver Gray */
+            margin: 0;
+            padding: 20px;
+        }
+
+        .dashboard-container {
+            background-color: #FFFFFF;
+            /* White */
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .header {
+            border-bottom: 2px solid #0F2C59;
+            /* Navy Blue */
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            color: #0F2C59;
+            /* Navy Blue */
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .header .meta {
+            font-size: 14px;
+            color: #555;
+            text-align: right;
+        }
+
+        .tab-container {
+            display: flex;
+            border-bottom: 1px solid #ccc;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            /* Allow tabs to wrap on smaller screens */
+        }
+
+        .tab-button {
+            padding: 10px 15px;
+            /* Adjust padding */
+            cursor: pointer;
+            border: none;
+            background-color: transparent;
+            font-size: 15px;
+            /* Adjust font size */
+            margin-right: 5px;
+            border-bottom: 3px solid transparent;
+            transition: border-bottom 0.3s ease, color 0.3s ease;
+            color: #555;
+            white-space: nowrap;
+            /* Prevent button text wrapping */
+        }
+
+        .tab-button.active {
+            border-bottom: 3px solid #0F2C59;
+            /* Navy Blue */
+            font-weight: bold;
+            color: #0F2C59;
+            /* Navy Blue */
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        h2 {
+            color: #0F2C59;
+            /* Navy Blue */
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        h3 {
+            color: #333;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .kpi-card-container {
+            display: grid;
+            /* Use grid for better alignment */
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            /* Responsive grid */
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .kpi-card {
+            background-color: #F5F5F5;
+            /* Silver Gray */
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+        }
+
+        .kpi-card.yield {
+            background-color: #e7f4e4;
+            border-color: #c3e6cb;
+        }
+
+        /* Light green for yield */
+        .kpi-card.loading {
+            background-color: #e0f7fa;
+            border-color: #b2ebf2;
+        }
+
+        /* Light cyan for loading */
+        .kpi-card.plan {
+            background-color: #fff9c4;
+            border-color: #fff176;
+        }
+
+        /* Light yellow for plans */
+
+
+        .kpi-card .value {
+            font-size: 20px;
+            font-weight: bold;
+            color: #0F2C59;
+            /* Navy Blue */
+        }
+
+        .kpi-card .label {
+            font-size: 13px;
+            color: #555;
+            margin-top: 5px;
+        }
+
+        ul {
+            padding-left: 0;
+            /* Remove default padding */
+            list-style: none;
+            /* Remove default bullets */
+        }
+
+        ul ul {
+            padding-left: 20px;
+        }
+
+        /* Indent nested lists */
+
+
+        li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 15px;
+            /* Space for custom bullet */
+        }
+
+        li::before {
+            content: '■';
+            /* Use square bullet */
+            position: absolute;
+            left: 0;
+            top: 0px;
+            /* Adjust vertical alignment */
+            color: #0F2C59;
+            /* Navy Blue */
+            font-size: 10px;
+            /* Adjust bullet size */
+        }
+
+        ul ul li::before {
+            content: '●';
+            font-size: 8px;
+        }
+
+        /* Circle for nested lists */
+        ul ul ul li::before {
+            content: '-';
+            font-size: 12px;
+        }
+
+        /* Dash for third level */
+
+
+        strong,
+        .highlight {
+            color: #0F2C59;
+            /* Navy Blue */
+            font-weight: 600;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 14px;
+            table-layout: fixed;
+            /* Fixed layout for better column handling */
+            word-wrap: break-word;
+            /* Allow long words to break */
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px 10px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background-color: #EAEFF5;
+            /* Light blue-gray */
+            color: #0F2C59;
+            /* Navy Blue */
+            font-weight: bold;
+        }
+
+        td:first-child {
+            font-weight: bold;
+        }
+
+        /* Bold first column if needed */
+
+        .roadmap-item {
+            border-left: 3px solid #0F2C59;
+            /* Navy Blue */
+            padding-left: 15px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .roadmap-item::before {
+            content: '';
+            position: absolute;
+            left: -8px;
+            /* Adjusted for thicker line */
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            background-color: #FFFFFF;
+            /* White */
+            border: 2px solid #0F2C59;
+            /* Navy Blue */
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .roadmap-date {
+            font-weight: bold;
+            color: #0F2C59;
+            /* Navy Blue */
+            margin-bottom: 5px;
+        }
+
+        .footer {
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid #ccc;
+            font-size: 12px;
+            color: #777;
+            text-align: right;
+        }
+
+        /* Minimal CSS */
+        body,
+        h1,
+        h2,
+        h3,
+        p,
+        ul,
+        li,
+        table,
+        th,
+        td,
+        button {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-size: 100%;
+            font: inherit;
+            vertical-align: baseline;
+            box-sizing: border-box;
+        }
+
+        body {
+            padding: 20px;
+            background-color: #F5F5F5;
+            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+            line-height: 1.6;
+        }
+
+        .dashboard-container {
+            padding: 25px;
+            background-color: #FFFFFF;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .header {
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #0F2C59;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .tab-container {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ccc;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .tab-button {
+            padding: 10px 15px;
+            background: none;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            font-size: 15px;
+            margin-right: 5px;
+            white-space: nowrap;
+            color: #555;
+        }
+
+        .tab-button.active {
+            border-bottom: 3px solid #0F2C59;
+            font-weight: bold;
+            color: #0F2C59;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        h2 {
+            padding-bottom: 8px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            font-size: 18px;
+            font-weight: 600;
+            color: #0F2C59;
+        }
+
+        h3 {
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        ul ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 15px;
+        }
+
+        li::before {
+            content: '■';
+            position: absolute;
+            left: 0;
+            top: 0px;
+            color: #0F2C59;
+            font-size: 10px;
+        }
+
+        ul ul li::before {
+            content: '●';
+            font-size: 8px;
+        }
+
+        ul ul ul li::before {
+            content: '-';
+            font-size: 12px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            table-layout: fixed;
+            word-wrap: break-word;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px 10px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background-color: #EAEFF5;
+            font-weight: bold;
+            color: #0F2C59;
+        }
+
+        .kpi-card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .kpi-card {
+            background-color: #F5F5F5;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+        }
+
+        .kpi-card.yield {
+            background-color: #e7f4e4;
+            border-color: #c3e6cb;
+        }
+
+        .kpi-card.loading {
+            background-color: #e0f7fa;
+            border-color: #b2ebf2;
+        }
+
+        .kpi-card.plan {
+            background-color: #fff9c4;
+            border-color: #fff176;
+        }
+
+        .kpi-card .value {
+            font-size: 20px;
+            font-weight: bold;
+            color: #0F2C59;
+        }
+
+        .kpi-card .label {
+            font-size: 13px;
+            color: #555;
+            margin-top: 5px;
+        }
+
+        .roadmap-item {
+            border-left: 3px solid #0F2C59;
+            padding-left: 15px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .roadmap-item::before {
+            content: '';
+            position: absolute;
+            left: -8px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            background-color: #FFFFFF;
+            border: 2px solid #0F2C59;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .roadmap-date {
+            font-weight: bold;
+            color: #0F2C59;
+            margin-bottom: 5px;
+        }
+
+        .footer {
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid #ccc;
+            font-size: 12px;
+            color: #777;
+            text-align: right;
+        }
+
+        @media (max-width: 992px) {
+
+            /* Adjust breakpoint if needed */
+            .tab-button {
+                font-size: 14px;
+                padding: 8px 10px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .header .meta {
+                text-align: left;
+                margin-top: 5px;
+            }
+
+            .tab-container {
+                flex-direction: column;
+            }
+
+            .tab-button {
+                text-align: left;
+                width: 100%;
+                border-bottom: 1px solid #eee;
+                margin-right: 0;
+            }
+
+            .tab-button.active {
+                border-bottom: 1px solid #eee;
+                border-left: 3px solid #0F2C59;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="dashboard-container">
+        <div class="header">
+            <h1>ww11 주간 이슈 동향</h1>
+            <div class="meta">
+                기준: 2025년 4월 2주차 (ISO 8601)<br>
+                출처: MCI 팀
+            </div>
+        </div>
+
+        <div class="tab-container">
+            <button class="tab-button active" onclick="openTab(event, 'nCompany')">N사 동향</button>
+            <button class="tab-button" onclick="openTab(event, 'boe')">BOE 동향</button>
+            <button class="tab-button" onclick="openTab(event, 'nySupplyChain')">NY 공급망 동향</button>
+            <button class="tab-button" onclick="openTab(event, 'chinaFab')">중국 Fab 동향</button>
+            <button class="tab-button" onclick="openTab(event, 'roadmap')">주요 일정/전망</button>
+        </div>
+
+        <div id="nCompany" class="tab-content active">
+            <h2>N사 중형 Tandem 전략 변화 배경</h2>
+            <ul>
+                <li><strong>전략 변경:</strong> GA향 NBPC는 <span class="highlight">Single</span> 집중, NY Biz는 <span
+                        class="highlight">Tandem</span> 집중.
+                    <ul>
+                        <li>('24년까지 GA 고객에 '26년 Tandem 제안 → '25년 Single로 Stance 전환, GA Tandem '28년 이후 예상)</li>
+                    </ul>
+                </li>
+                <li><strong>변경 사유:</strong>
+                    <ul>
+                        <li><span class="highlight">G8.6 A6 Capa 문제:</span> 초기 15K(Mask 12+3) → 現 10~11K(Mask 14+4),
+                            Macbook Air '29년 연기. GA 확대보다 Macbook Pro 성공적 런칭 우선.</li>
+                        <li><span class="highlight">손익 문제:</span> G5.5 A2 수익성 양호(10~15%), ATO Tandem 확장 Needs 낮음.
+                            다품종/다고객 대응 시 비용 증가, 고객 Premium Price 지불 가능성 낮음.</li>
+                        <li><span class="highlight">Fab 운영 문제:</span> G6 A3 로딩 빠질 것 예상했으나 NY Foldable 대응 결정으로 Capa 부족.
+                            GA Tandem은 A6에서 해야 하나 Macbook Pro 우선.</li>
+                        <li><span class="highlight">미래 기술 전략:</span> A6 추가 투자 펜딩, G8.6 IT 기술 재검토 필요 (NY LTPO+, CoE/TCO
+                            요구, MPO 부상). MPO 양산 시 Single로도 성능 확보 가능.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h2>N사 OLEDoS (WOLED) 양산 계획 (SSE MX향)</h2>
+            <div class="kpi-card-container">
+                <div class="kpi-card plan">
+                    <div class="value">'25.06</div>
+                    <div class="label">양산 투입 시작 (계획)</div>
+                </div>
+                <div class="kpi-card plan">
+                    <div class="value">~2,000대/월</div>
+                    <div class="label">최대 공급 수량 (전망)</div>
+                </div>
+                <div class="kpi-card yield">
+                    <div class="value">57%</div>
+                    <div class="label">現 TTL 수율 (P:59, M:97)</div>
+                </div>
+                <div class="kpi-card yield">
+                    <div class="value">> 60%</div>
+                    <div class="label">양산 전 TTL 수율 목표</div>
+                </div>
+            </div>
+            <ul>
+                <li><strong>배경:</strong> MX 연간 5만대 소량 판매 예상, Sony 선계약으로 N사 물량 확대 난항.</li>
+                <li><strong>생산 Fab:</strong> A2 Fab.</li>
+            </ul>
+
+            <h2>N사 A2 Fab 생산 동향</h2>
+            <ul>
+                <li><strong>현황:</strong> <span class="highlight">지속 Full Loading</span> 상태 유지.</li>
+                <li><strong>주요 원인:</strong> A15 모델 영향 (LCD→GO 전환, '24년 Galaxy 비중 21%). A1 시리즈 전체 비중 30%.</li>
+                <li><strong>향후 계획:</strong> FE('25), A5('26) PO 전환 시 IT 지속 확대 계획. 당분간 A2 Capa 활용 문제 없을 것.</li>
+                <li><strong>Mainstream PO 전환 배경:</strong> A2 Full Loading 때문이 아닌, 계획된 Display 업그레이드 (중국 업체 대비 늦은 편).
+                </li>
+            </ul>
+
+            <h2>N사 '25년 제품별 수율 동향 (1~2월)</h2>
+            <div class="kpi-card-container">
+                <div class="kpi-card yield">
+                    <div class="value">~96%</div>
+                    <div class="label">A2 SP (Feb 96.2%)</div>
+                </div>
+                <div class="kpi-card yield">
+                    <div class="value">~94%</div>
+                    <div class="label">A2 IT (Feb 93.7%)</div>
+                </div>
+                <div class="kpi-card yield">
+                    <div class="value">~96%</div>
+                    <div class="label">A3 NY SP (Feb 95.8%)</div>
+                </div>
+                <div class="kpi-card yield">
+                    <div class="value">~96%</div>
+                    <div class="label">A3 GA SP (Feb 95.6%)</div>
+                </div>
+                <div class="kpi-card yield">
+                    <div class="value">~92%</div>
+                    <div class="label">A3 NY Tablet (Feb 91.5%)</div>
+                </div>
+                <div class="kpi-card yield">
+                    <div class="value">~92%</div>
+                    <div class="label">A4 GA/Fold SP (Feb 92.3%)</div>
+                </div>
+                <div class="kpi-card yield">
+                    <div class="value">~92%</div>
+                    <div class="label">A5 QD OLED (Jan/Feb 91.9%)</div>
+                </div>
+            </div>
+            <ul>
+                <li>참고: Module 수율은 대부분 99% 이상 (A4 Foldable '25.02 98.9%).</li>
+            </ul>
+        </div>
+
+        <div id="boe" class="tab-content">
+            <h2>BOE NY S/P 진입 계획</h2>
+            <ul>
+                <li><strong>아이폰 Normal (LTPO):</strong> '26년 목표 → <span class="highlight">실제 '27년 진입 가능성</span> (LTPO
+                    신뢰성 부족).
+                    <ul>
+                        <li>('25년 Qual 승인 후 PRQ 진입 목표)</li>
+                    </ul>
+                </li>
+                <li><strong>아이폰 Pro (LTPO+ 등):</strong> '28년 목표 → <span class="highlight">실제 '29년 진입 예상</span> (기술
+                    Readiness 확보 지연).
+                    <ul>
+                        <li>(필요 기술: LTPO+, Loa, Crater, UDIR, TCO 등)</li>
+                        <li>(관련 기술 본격 개발 '26년 시작 예상)</li>
+                    </ul>
+                </li>
+                <li><strong>NY 폴더블 S/P:</strong> '28년 목표 (2M 규모) → <span class="highlight">진입 난항 예상</span> (기술 완성도 부족).
+                    <ul>
+                        <li>(필요 기술: CoE, TCO, UDC/UDIR, Thin Encap 등)</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h2>BOE CHOT Fab 인수 동향</h2>
+            <ul>
+                <li><strong>목표:</strong> LCD 시장 점유율 1위 수성 위해 G8.6 CHOT Fab 인수 계획.</li>
+                <li><strong>지분 논의:</strong> BOE - 센양 정부(최대 주주) 간 <span class="highlight">약 20% 지분 매각 논의 중</span> (약
+                    1조원).
+                    <ul>
+                        <li>(센양 정부: 경영권 유지 조건 / BOE: 3년 뒤 완전 인수 추진 계획)</li>
+                    </ul>
+                </li>
+                <li><strong>센양 정부 매각 이유 (CEC 반대에도 불구):</strong>
+                    <ul>
+                        <li>BOE 자금으로 기존 고리 대출 상환/저리 전환 (중앙 정부 경기 부양 저리 대출 활용).</li>
+                        <li>중앙 정부 지원 통한 신규 사업("Glass 국산화") 육성 (BOE의 투자/운영 기대).</li>
+                    </ul>
+                </li>
+                <li><strong>인수 시 영향:</strong> CHOT Main 고객사 일부 물동 이탈 예상.
+                    <ul>
+                        <li>TCL(20%): CSOT/대만 업체로 전환 추진.</li>
+                        <li>Hisense(20%): 일부 물량 대만 업체로 전환 계획 (現 BOE 비중 높음).</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div id="nySupplyChain" class="tab-content">
+            <h2>아이폰16e 생산 (D852) 동향</h2>
+            <div class="kpi-card-container">
+                <div class="kpi-card plan">
+                    <div class="value">&lt; 2,000만대</div>
+                    <div class="label">'25년 생산량 전망 (감소 가능성)</div>
+                </div>
+                <div class="kpi-card plan">
+                    <div class="value">BOE: 400만대</div>
+                    <div class="label">Q1 공급량 (확인)</div>
+                </div>
+                <div class="kpi-card plan">
+                    <div class="value">N사: 300만대</div>
+                    <div class="label">Q1 공급량 (확인)</div>
+                </div>
+                <div class="kpi-card plan">
+                    <div class="value">BOE: ~1300만대</div>
+                    <div class="label">'25년 출하 목표</div>
+                </div>
+            </div>
+            <ul>
+                <li><strong>물량 감소 가능성 이유:</strong> 판매 부진 + 아이폰 Air(D965)향 물량 배정 확대 예상.
+                    <ul>
+                        <li>(동일 통신칩(NY 자체 설계, TSMC 생산, 5천만대 계약) 사용 → 16e 축소 필요)</li>
+                    </ul>
+                </li>
+                <li><strong>업체별 동향:</strong>
+                    <ul>
+                        <li>BOE: N사 진입으로 목표 달성 쉽지 않을 전망.</li>
+                        <li>N사: 신모델 출시 전인 Q2까지만 공급 예정.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h2>NY EMS 업체별 생산 제품/지역별 비중</h2>
+            <h3>스마트폰 (SP)</h3>
+            <ul>
+                <li><strong>주요 업체 비중:</strong> Foxconn (55%), Luxshare (24%), Pegatron (15%), Tata (6%).</li>
+                <li><strong>Foxconn:</strong> 중국 78% (정저우 67%, 선전 6%, 타이위안 5%) / 인도 22% (타밀나두).</li>
+                <li><strong>Luxshare:</strong> 중국 쿤산 100%.</li>
+                <li><strong>Pegatron:</strong> 중국 86% (상하이 65%, 쿤산 21%) / 인도 14% (타밀나두).</li>
+                <li><strong>Tata:</strong> 인도 100% (콜라 80%, 호수르 20%).</li>
+            </ul>
+            <h3>태블릿 (Tablet)</h3>
+            <ul>
+                <li><strong>주요 업체 비중:</strong> Foxconn (52%), Compal (16%), BYD (32%).</li>
+                <li><strong>Foxconn:</strong> 중국 91% (청두 80%, 선전 11%) / 베트남 9% (박장).</li>
+                <li><strong>Compal:</strong> 중국 난징 100%.</li>
+                <li><strong>BYD:</strong> 중국 선전 79% / 베트남 21% (푸토).</li>
+            </ul>
+        </div>
+
+        <div id="chinaFab" class="tab-content">
+            <h2>CSOT T4 PO Fab 동향</h2>
+            <div class="kpi-card-container">
+                <div class="kpi-card loading">
+                    <div class="value">93.8%</div>
+                    <div class="label">'24.Q4 로딩률</div>
+                </div>
+                <div class="kpi-card loading">
+                    <div class="value">95.0%</div>
+                    <div class="label">'25.Q1 로딩률(E)</div>
+                </div>
+                <div class="kpi-card loading">
+                    <div class="value">99.0%</div>
+                    <div class="label">'25.Q2 로딩률(E)</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="value">Xiaomi (61%)</div>
+                    <div class="label">주요 고객 ('25.Q1)</div>
+                </div>
+            </div>
+            <ul>
+                <li><strong>현황:</strong> <span class="highlight">지속 Full Loading</span> 상태 유지 (6.67"~7" SP 주력).</li>
+                <li><strong>Full Loading 배경:</strong> 국가 보조금 + 주력 고객사(Xiaomi 등) 중저가 SP의 PO 전환 수요 급증.</li>
+                <li><strong>주요 고객:</strong> Xiaomi (60%+ Capa 차지, Global 확장/High-End 진입 전략 수혜), Huawei, Vivo, Lenovo 등.
+                </li>
+                <li><strong>'25년 계획:</strong> 중저가 외 고주사율 & Foldable 제품 확대 추진.</li>
+            </ul>
+
+            <h2>Tianma TM17/18 PO Fab 동향</h2>
+            <div class="kpi-card-container">
+                <div class="kpi-card loading">
+                    <div class="value">~88% / ~80%</div>
+                    <div class="label">TM17 / TM18 '25.Q1 로딩률(E)</div>
+                </div>
+                <div class="kpi-card loading">
+                    <div class="value">~85% / ~80%</div>
+                    <div class="label">TM17 / TM18 '25.Q2 로딩률(E)</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="value">다수 고객 분포</div>
+                    <div class="label">주요 고객 특징</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="value">Watch / Auto</div>
+                    <div class="label">'25년 중점 추진</div>
+                </div>
+            </div>
+            <ul>
+                <li><strong>현황:</strong> <span class="highlight">80%대 준수한 로딩률</span> 유지 (6.59"~7" SP, 1.32/1.39" Watch
+                    생산).</li>
+                <li><strong>Loading 유지 배경:</strong> 중저가 제품 PO 전환 지속.</li>
+                <li><strong>주요 고객 ('25.Q1):</strong> Xiaomi(21%), OPPO(19%), Transsion(14%), Vivo(13%), Honor(13%),
+                    Lenovo(10%), Huawei(4%). (압도적 비중 고객 없음)</li>
+                <li><strong>'25년 계획:</strong> SP 고객 유지 + <span class="highlight">신규 제품(Watch 확대, Auto 진입)</span>
+                    Resource 확대.</li>
+            </ul>
+
+            <h2>Visionox V2/V3 PO Fab 동향</h2>
+            <div class="kpi-card-container">
+                <div class="kpi-card loading">
+                    <div class="value">~56% / ~76%</div>
+                    <div class="label">V2 / V3 '25.Q1 로딩률(E)</div>
+                </div>
+                <div class="kpi-card loading">
+                    <div class="value">~60% / ~85%</div>
+                    <div class="label">V2 / V3 '25.Q2 로딩률(E)</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="value">Huawei (21%)</div>
+                    <div class="label">주요 고객 1 ('25.Q1)</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="value">Honor (20%)</div>
+                    <div class="label">주요 고객 2 ('25.Q1)</div>
+                </div>
+            </div>
+            <ul>
+                <li><strong>현황:</strong> V3는 80% 수준 유지, <span class="highlight">V2는 60% 미만 Loading</span>. (6~7" SP 주력,
+                    일부 IT/Auto 생산).</li>
+                <li><strong>주요 고객 ('25.Q1):</strong> Huawei(21%), Honor(20%), Vivo(19%), Xiaomi(12%), OPPO(7%).</li>
+            </ul>
+        </div>
+
+        <div id="roadmap" class="tab-content">
+            <h2>주요 일정/전망 요약</h2>
+            <div class="roadmap-item">
+                <div class="roadmap-date">'25년 Q2</div>
+                <div>N사: A2 Fab에서 OLEDoS 양산 투입 시작 (계획)</div>
+                <div>CSOT T4 Fab: 로딩률 99.0% 예상</div>
+                <div>Tianma TM17/18 Fab: 로딩률 85%/80% 예상</div>
+                <div>Visionox V2/V3 Fab: 로딩률 60%/85% 예상</div>
+                <div>N사: 아이폰16e 공급 종료 (예정)</div>
+            </div>
+            <div class="roadmap-item">
+                <div class="roadmap-date">'25년 (연내)</div>
+                <div>BOE: 아이폰 Normal LTPO Qual 승인 목표</div>
+                <div>N사: FE 모델 PO 전환</div>
+            </div>
+            <div class="roadmap-item">
+                <div class="roadmap-date">'26년</div>
+                <div>N사: A5 Series PO 전환</div>
+                <div>BOE: 아이폰 Pro향 기술 본격 개발 시작 (예상)</div>
+            </div>
+            <div class="roadmap-item">
+                <div class="roadmap-date">'27년</div>
+                <div>BOE: 아이폰 Normal (LTPO) 실제 진입 가능성 (전망)</div>
+                <div>N사: Macbook Air 출시 연기 ('27 → '29)</div>
+            </div>
+            <div class="roadmap-item">
+                <div class="roadmap-date">'28년</div>
+                <div>BOE: 아이폰 Pro 라인업 진입 목표 (원안)</div>
+                <div>BOE: NY 폴더블 S/P 진입 목표 (원안, 2M 규모)</div>
+                <div>N사: GA 고객향 Tandem NBPC 진입 가능 시점 (예상)</div>
+            </div>
+            <div class="roadmap-item">
+                <div class="roadmap-date">'29년</div>
+                <div>BOE: 아이폰 Pro 실제 진입 가능 시점 (전망)</div>
+                <div>N사: Macbook Air 출시 (변경된 일정)</div>
+            </div>
+            <div class="roadmap-item">
+                <div class="roadmap-date">향후</div>
+                <div>BOE: CHOT Fab 완전 인수 추진 (3년 뒤 재협상)</div>
+                <div>BOE + 센양 정부: Glass 국산화 사업 추진 가능성</div>
+            </div>
+        </div>
+
+
+        <div class="footer">
+            출처: MCI 팀
+        </div>
+    </div>
+
+    <script>
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+                tabcontent[i].classList.remove("active");
+            }
+            tablinks = document.getElementsByClassName("tab-button");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+            document.getElementById(tabName).style.display = "block";
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+
+        // Activate the first tab by default
+        document.addEventListener("DOMContentLoaded", function () {
+            var firstTabButton = document.querySelector(".tab-button");
+            if (firstTabButton) {
+                firstTabButton.click();
+            }
+        });
+    </script>
+
+</body>
+
+</html>
