@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> 주간 이슈 동향 퀴즈 (ww11) - 20문항 </title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .quiz-container {
+            background-color: #FFFFFF;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .quiz-header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #0F2C59;
+            /* Navy Blue */
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .question-block {
+            margin-bottom: 25px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+
+        .question-text {
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .options label {
+            display: block;
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .options label:hover {
+            background-color: #f5f5f5;
+        }
+
+        .options input[type="radio"] {
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        .check-button {
+            padding: 8px 15px;
+            background-color: #0F2C59;
+            /* Navy Blue */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+            transition: background-color 0.2s ease;
+        }
+
+        .check-button:hover {
+            background-color: #163d7f;
+            /* Darker Navy Blue */
+        }
+
+        .check-button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .feedback {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            display: none;
+            /* Initially hidden */
+        }
+
+        .feedback.correct {
+            background-color: #e7f4e4;
+            /* Light green */
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .feedback.incorrect {
+            background-color: #f8d7da;
+            /* Light red */
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+
+        .explanation {
+            margin-top: 8px;
+            font-style: italic;
+            color: #555;
+        }
+
+        .correct-answer-label {
+            background-color: #d4edda !important;
+            /* Ensure highlighting overrides hover */
+            border-color: #c3e6cb !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="quiz-container">
+        <div class="quiz-header"> ww11 주간 이슈 동향 복습 퀴즈 (20문항) </div>
+
+        <div class="question-block" id="q1">
+            <div class="question-text"> 1. BOE는 LTPO 소자 신뢰성 문제로 아이폰 Normal 모델의 실제 진입 시점을 언제로 전망하고 있나요?</div>
+            <div class="options">
+                <label><input type="radio" name="q1" value="a"> a) 2025년</label>
+                <label><input type="radio" name="q1" value="b"> b) 2026년</label>
+                <label><input type="radio" name="q1" value="c"> c) 2027년</label>
+                <label><input type="radio" name="q1" value="d"> d) 2028년</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q1', 'c')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 1번: BOE는 '26년 신모델 진입을 목표로 하나, LTPO 소자 신뢰성 확보 부족으로 실제 '27년 신모델 진입이 가능할 것으로
+                    전망됩니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q2">
+            <div class="question-text"> 2. BOE가 아이폰 프로 라인업 진입을 위해 '28년까지 확보해야 할 기술적 Readiness에 해당하지 <u>않는</u> 것은?</div>
+            <div class="options">
+                <label><input type="radio" name="q2" value="a"> a) LTPO+</label>
+                <label><input type="radio" name="q2" value="b"> b) Loa (Lens on Array)</label>
+                <label><input type="radio" name="q2" value="c"> c) WOLED (White OLED)</label>
+                <label><input type="radio" name="q2" value="d"> d) UDIR (Under Display IR)</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q2', 'c')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 1번: 아이폰 프로 진입을 위해 필요한 기술로 LTPO+, Loa, Crater, UDIR, TCO 등이 언급되었으나, WOLED는
+                    해당 목록에 포함되지 않았습니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q3">
+            <div class="question-text"> 3. BOE의 NY 폴더블 S/P 진입 목표 연도와 목표 공급 규모는 얼마인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q3" value="a"> a) 2027년, 1M</label>
+                <label><input type="radio" name="q3" value="b"> b) 2028년, 2M</label>
+                <label><input type="radio" name="q3" value="c"> c) 2028년, 5M</label>
+                <label><input type="radio" name="q3" value="d"> d) 2029년, 2M</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q3', 'b')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 1번: BOE는 NY 폴더블 S/P에 대해 '28년부터 2M 규모 공급을 목표로 하고 있으나, 기술적 완성도 부족으로 진입 난항이
+                    예상됩니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q4">
+            <div class="question-text"> 4. N사의 변경된 중형 OLED 전략에 따라, GA향 NBPC는 어떤 소자 방식에 집중할 계획인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q4" value="a"> a) Tandem 소자</label>
+                <label><input type="radio" name="q4" value="b"> b) Single 소자 (GO/ATO)</label>
+                <label><input type="radio" name="q4" value="c"> c) LTPO+ 소자</label>
+                <label><input type="radio" name="q4" value="d"> d) MPO(eLEAP) 소자</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q4', 'b')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 2번: N사는 GA향 NBPC는 Cost 경쟁력 기반의 GO/ATO Single 제품에 집중하고, NY Biz는 Tandem에 집중할
+                    계획으로 변경했습니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q5">
+            <div class="question-text"> 5. N사가 GA 고객에게 Tandem NBPC 진입 시점을 언제 이후로 예상하고 있나요?</div>
+            <div class="options">
+                <label><input type="radio" name="q5" value="a"> a) 2026년</label>
+                <label><input type="radio" name="q5" value="b"> b) 2027년</label>
+                <label><input type="radio" name="q5" value="c"> c) 2028년</label>
+                <label><input type="radio" name="q5" value="d"> d) 2029년</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q5', 'c')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 2번: N사는 GA Tandem에 '28년 이후 진입할 것으로 예상됩니다. 기존 '26년 제안에서 변경되었습니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q6">
+            <div class="question-text"> 6. N사의 Tandem 전략 변경 사유 중, G8.6 A6 Capa가 기존 15K에서 감소한 현재 수준은 얼마인가요? (Mask 14+4 구조
+                기준)</div>
+            <div class="options">
+                <label><input type="radio" name="q6" value="a"> a) 7~8K</label>
+                <label><input type="radio" name="q6" value="b"> b) 10~11K</label>
+                <label><input type="radio" name="q6" value="c"> c) 12~13K</label>
+                <label><input type="radio" name="q6" value="d"> d) 15K</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q6', 'b')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 2번 (사유1): 기 계획된 15K Capa는 Mask 12+3 기준이었으나, 현재 14+4 구조로 Capa가 10~11K 수준으로
+                    언급됩니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q7">
+            <div class="question-text"> 7. N사의 Tandem 전략 변경 사유 중, 현재 G5.5 A2 Fab에서 생산되는 GA NBPC 모델의 수익성 수준은 어느 정도로
+                평가되나요?</div>
+            <div class="options">
+                <label><input type="radio" name="q7" value="a"> a) 0~5% (손익분기 수준)</label>
+                <label><input type="radio" name="q7" value="b"> b) 5~10% (보통 수준)</label>
+                <label><input type="radio" name="q7" value="c"> c) 10~15% (매우 양호)</label>
+                <label><input type="radio" name="q7" value="d"> d) 15% 이상 (매우 우수)</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q7', 'c')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 2번 (사유2): G5.5 A2에서의 GA NBPC 모델 수익성은 10~15% 수준으로 매우 양호하여 ATO Tandem 모델 확장
+                    Needs가 낮다고 분석됩니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q8">
+            <div class="question-text"> 8. N사의 Tandem 전략 변경 사유 중, G6 A3 Fab의 여유 Capa가 부족해진 주된 이유는 무엇인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q8" value="a"> a) A3 Fab 폐쇄 결정</label>
+                <label><input type="radio" name="q8" value="b"> b) NY Foldable SP 대응 결정</label>
+                <label><input type="radio" name="q8" value="c"> c) GA IT 제품 생산 집중</label>
+                <label><input type="radio" name="q8" value="d"> d) G8.6 A6로 물량 이전</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q8', 'b')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 2번 (사유3): A3에서 NY Foldable SP 대응이 결정되면서 A3의 여유 Capa가 부족해졌고, GA NBPC Tandem은
+                    A6로 갈 수 밖에 없게 되었다고 설명합니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q9">
+            <div class="question-text"> 9. N사가 SSE MX향 OLEDoS(WOLED)의 양산 투입을 시작할 계획인 시점은 언제인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q9" value="a"> a) 2025년 4월</label>
+                <label><input type="radio" name="q9" value="b"> b) 2025년 6월</label>
+                <label><input type="radio" name="q9" value="c"> c) 2025년 9월</label>
+                <label><input type="radio" name="q9" value="d"> d) 2025년 12월</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q9', 'b')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 3번: N사는 SSE MX향으로 공급할 OLEDoS의 양산 투입을 오는 6월부터 시작할 계획입니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q10">
+            <div class="question-text"> 10. N사의 OLEDoS 양산 전 TTL(Total Throughput Yield) 수율 목표치는 얼마인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q10" value="a"> a) 50% 초과</label>
+                <label><input type="radio" name="q10" value="b"> b) 55% 초과</label>
+                <label><input type="radio" name="q10" value="c"> c) 60% 초과</label>
+                <label><input type="radio" name="q10" value="d"> d) 70% 초과</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q10', 'c')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 3번: 현재 수율은 TTL 57% 수준이며, 내부적으로 양산 전까지는 60% 초과가 목표라고 언급됩니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q11">
+            <div class="question-text"> 11. N사 A2 Fab이 지속적으로 Full Loading 상태를 유지하는 데 가장 큰 영향을 미친 제품 모델은 무엇인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q11" value="a"> a) A16</label>
+                <label><input type="radio" name="q11" value="b"> b) A15</label>
+                <label><input type="radio" name="q11" value="c"> c) FE 모델</label>
+                <label><input type="radio" name="q11" value="d"> d) A5 Series</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q11', 'b')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 4번: A2 Fab의 Full Loading은 LCD에서 GO로 전환된 A15 제품의 영향이 크며, 작년 Galaxy 전체 비중의
+                    21%를 차지했다고 설명합니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q12">
+            <div class="question-text"> 12. N사 A3 Fab의 2025년 2월 NY Tablet 수율은 얼마를 기록했나요?</div>
+            <div class="options">
+                <label><input type="radio" name="q12" value="a"> a) 89.3%</label>
+                <label><input type="radio" name="q12" value="b"> b) 91.5%</label>
+                <label><input type="radio" name="q12" value="c"> c) 95.6%</label>
+                <label><input type="radio" name="q12" value="d"> d) 95.8%</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q12', 'b')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 5번: N사의 '25년 제품별 수율 동향에서 A3 Fab NY Tablet 수율은 1월 89.3%, 2월 91.5%를 기록했습니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q13">
+            <div class="question-text"> 13. BOE는 CHOT Fab 인수를 위해 최대 주주인 센양 정부와 어느 정도 수준의 지분 매각을 논의 중인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q13" value="a"> a) 약 10% (약 5천억원)</label>
+                <label><input type="radio" name="q13" value="b"> b) 약 20% (약 1조원)</label>
+                <label><input type="radio" name="q13" value="c"> c) 약 30% (약 1.5조원)</label>
+                <label><input type="radio" name="q13" value="d"> d) 약 50% (약 2.5조원)</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q13', 'b')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 6번: 센양 정부는 경영권 유지 조건으로 BOE와 약 20% 수준 지분 매각 (약 1조원 수준)을 논의 중입니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q14">
+            <div class="question-text"> 14. BOE가 CHOT Fab에 투자를 진행할 경우, 물동 이탈이 예상되는 Main 고객사와 그 이유는 무엇인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q14" value="a"> a) TCL (품질 문제), Hisense (가격 문제)</label>
+                <label><input type="radio" name="q14" value="b"> b) TCL (경쟁사), Hisense (BOE 비중 과다)</label>
+                <label><input type="radio" name="q14" value="c"> c) Samsung (경쟁사), LG (가격 문제)</label>
+                <label><input type="radio" name="q14" value="d"> d) Sony (품질 문제), Sharp (BOE 비중 과다)</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q14', 'b')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 6번: TCL은 BOE가 경쟁 업체(CSOT 모회사)이므로, Hisense는 현재 BOE 비중이 높다고 판단하여 일부 물량을 전환할
+                    계획이라고 언급됩니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q15">
+            <div class="question-text"> 15. 아이폰16e 모델의 물량이 감소될 수 있는 주된 이유는 무엇인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q15" value="a"> a) 생산 수율 문제 발생</label>
+                <label><input type="radio" name="q15" value="b"> b) 디자인 변경 지연</label>
+                <label><input type="radio" name="q15" value="c"> c) 아이폰 Air향 물량 배정 확대</label>
+                <label><input type="radio" name="q15" value="d"> d) 주요 부품 공급 부족</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q15', 'c')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 7번: 물량 감소 이유로 판매 부진 외에, 같은 통신칩을 사용하는 아이폰 Air 제품에 물량이 더 배정될 것으로 예상되기 때문이라고
+                    설명합니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q16">
+            <div class="question-text"> 16. 2025년 1분기까지 아이폰16e 모델에 패널을 공급한 것으로 확인된 N사의 물량은 얼마인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q16" value="a"> a) 100만대</label>
+                <label><input type="radio" name="q16" value="b"> b) 200만대</label>
+                <label><input type="radio" name="q16" value="c"> c) 300만대</label>
+                <label><input type="radio" name="q16" value="d"> d) 400만대</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q16', 'c')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 7번: 업체별로는 1분기까지 BOE는 400만대, N사는 300만대 수준을 공급할 것으로 확인되었습니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q17">
+            <div class="question-text"> 17. NY 스마트폰 생산을 담당하는 EMS 업체 중 생산 비중이 가장 높은 업체는 어디인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q17" value="a"> a) Luxshare (24%)</label>
+                <label><input type="radio" name="q17" value="b"> b) Pegatron (15%)</label>
+                <label><input type="radio" name="q17" value="c"> c) Tata (6%)</label>
+                <label><input type="radio" name="q17" value="d"> d) Foxconn (55%)</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q17', 'd')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 8번: NY SP 생산은 Foxconn(비중 55%), Luxshare(24%), Pegatron(15%), Tata(6%)에서
+                    전담하며, Foxconn의 비중이 가장 높습니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q18">
+            <div class="question-text"> 18. NY 태블릿 생산을 담당하는 EMS 업체 중 생산 비중이 두 번째로 높은 업체는 어디인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q18" value="a"> a) Foxconn (52%)</label>
+                <label><input type="radio" name="q18" value="b"> b) Compal (16%)</label>
+                <label><input type="radio" name="q18" value="c"> c) BYD (32%)</label>
+                <label><input type="radio" name="q18" value="d"> d) Luxshare (언급 없음)</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q18', 'c')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 8번: NY Tablet 생산은 Foxconn(52%), Compal(16%), BYD(32%)에서 진행하며, BYD가 두 번째로 높은
+                    비중을 차지합니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q19">
+            <div class="question-text"> 19. CSOT T4 Fab의 2025년 1분기 기준, 가장 큰 Capa 비중(60% 이상)을 차지하는 주요 고객사는 어디인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q19" value="a"> a) Huawei</label>
+                <label><input type="radio" name="q19" value="b"> b) Vivo</label>
+                <label><input type="radio" name="q19" value="c"> c) Xiaomi</label>
+                <label><input type="radio" name="q19" value="d"> d) Lenovo</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q19', 'c')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 9번: T4의 주요 고객은 Xiaomi로 60% 이상 Capa를 차지하며('25.Q1 기준 61%), CSOT는 Xiaomi의 전략적
+                    수혜를 받고 있다고 설명합니다.</div>
+            </div>
+        </div>
+
+        <div class="question-block" id="q20">
+            <div class="question-text"> 20. Tianma가 올해 SP 고객사를 유지하면서 신규 프로젝트로 중점 추진할 계획인 제품군은 무엇인가요?</div>
+            <div class="options">
+                <label><input type="radio" name="q20" value="a"> a) Foldable SP, Tablet</label>
+                <label><input type="radio" name="q20" value="b"> b) Tablet, NBPC</label>
+                <label><input type="radio" name="q20" value="c"> c) Watch, Auto</label>
+                <label><input type="radio" name="q20" value="d"> d) NBPC, Monitor</label>
+            </div>
+            <button class="check-button" onclick="checkAnswer('q20', 'c')"> 정답 확인 </button>
+            <div class="feedback">
+                <span class="result"></span>
+                <div class="explanation"> 문서 10번: Tianma는 올해 Watch 확대와 Auto 제품 진입을 중점적으로 추진할 전망이라고 언급합니다.</div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script>
+        function checkAnswer(questionId, correctAnswer) {
+            const questionBlock = document.getElementById(questionId);
+            const selectedOption = questionBlock.querySelector(`input[name="${questionId}"]:checked`);
+            const feedbackElement = questionBlock.querySelector('.feedback');
+            const resultSpan = feedbackElement.querySelector('.result');
+            const checkButton = questionBlock.querySelector('.check-button');
+            const radioButtons = questionBlock.querySelectorAll(`input[name="${questionId}"]`);
+            const labels = questionBlock.querySelectorAll('.options label'); // Get all labels
+
+            if (!selectedOption) {
+                alert("답변을 선택해주세요!");
+                return;
+            }
+
+            const userAnswer = selectedOption.value;
+
+            // Reset previous label highlights
+            labels.forEach(label => {
+                label.classList.remove('correct-answer-label');
+            });
+
+            if (userAnswer === correctAnswer) {
+                resultSpan.textContent = "정답입니다!";
+                feedbackElement.className = 'feedback correct'; // Reset class and add 'correct'
+                selectedOption.parentElement.classList.add('correct-answer-label'); // Highlight correct selected label
+            } else {
+                resultSpan.textContent = "오답입니다.";
+                feedbackElement.className = 'feedback incorrect'; // Reset class and add 'incorrect'
+                // Highlight the correct answer's label even if wrong answer selected
+                const correctLabel = questionBlock.querySelector(`input[value="${correctAnswer}"]`).parentElement;
+                correctLabel.classList.add('correct-answer-label');
+            }
+
+            feedbackElement.style.display = 'block'; // Show feedback
+            checkButton.disabled = true; // Disable button after checking
+
+            // Disable radio buttons
+            radioButtons.forEach(radio => {
+                radio.disabled = true;
+            });
+        }
+    </script>
+
+</body>
+
+</html>
